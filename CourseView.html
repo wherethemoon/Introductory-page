@@ -1,23 +1,13 @@
-<h1>课程表</h1>
-<table>
-    <thead>
-        <tr>
-            {% for column in Courses.0.keys %}  <!-- 动态获取列名 -->
-                <th>{{ column }}</th>
-            {% endfor %}
-        </tr>
-    </thead>
-    <tbody>
-        {% for Course in Courses %}
-            <tr>
-                {% for value in Course.values %}
-                    <td>{{ value }}</td>  <!-- 输出每一列的值 -->
-                {% endfor %}
-            </tr>
-        {% empty %}
-            <tr>
-                <td colspan="2">No Courses available.</td>
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Page</title>
+</head>
+<body>
+    <h1>Welcome to My GitHub Pages Site!</h1>
+    <p>This is a simple test page to ensure that GitHub Pages is working correctly.</p>
+    <p>If you see this page, your GitHub Pages setup is successful!</p>
+</body>
+</html>
