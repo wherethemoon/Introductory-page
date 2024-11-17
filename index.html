@@ -13,40 +13,26 @@
             background-color: #f9f9f9;
             margin: 0;
             padding: 0;
-            padding-top: 120px;  /* 页眉高度，确保内容不被遮挡 */
+            padding-top: 60px;  /* 为了避免内容被固定的页眉覆盖 */
+            padding-bottom: 60px;  /* 为了避免内容被固定的页脚覆盖 */
         }
 
-        header {
+        header, footer {
             background-color: #4CAF50;
             color: white;
             text-align: center;
             padding: 10px 0;
             position: fixed;
             width: 100%;
-            top: 0;
             left: 0;
-            z-index: 10;
         }
 
-        /* 页眉内的元素排列 */
-        header .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+        header {
+            top: 0;  /* 页眉固定在页面顶部 */
         }
 
-        /* 页眉标题 */
-        header h1 {
-            margin: 0;
-        }
-
-        /* 按钮和搜索框的容器 */
-        .header-actions {
-            display: flex;
-            align-items: center;
+        footer {
+            bottom: 0;  /* 页脚固定在页面底部 */
         }
 
         nav {
@@ -54,7 +40,7 @@
             color: white;
             padding: 10px;
             text-align: center;
-            margin-top: 80px;  /* 让导航条不被固定的页眉遮住 */
+            margin-top: 60px;  /* 让导航条不被固定的页眉遮住 */
         }
 
         nav a {
@@ -70,6 +56,8 @@
 
         main {
             padding: 20px;
+            margin-top: 20px;  /* 留出一些空隙，避免内容紧挨着导航栏 */
+            margin-bottom: 20px;  /* 留出空隙，避免内容紧挨着页脚 */
         }
 
         .item {
@@ -84,25 +72,25 @@
         }
 
         #search-box {
-            margin-left: 20px;
+            margin: 20px auto;
+            display: block;
+            width: 50%;
             padding: 10px;
             border: 1px solid #ccc;
         }
-
     </style>
 </head>
 <body>
     <header>
-        <div class="container">
-            <h1>丰耘秘境介绍页</h1>
-            <div class="header-actions">
-                <a onclick="filterItems('yiqi')">辉煌假象</a>
-                <a onclick="showAllItems()">显示全部</a>
-                <input type="text" id="search-box" placeholder="搜索物品..."> <!-- 搜索框在页眉上 -->
-            </div>
-        </div>
+        <h1>丰耘秘境介绍页</h1>
+        <p>反馈进群667332070</p>
     </header>
-
+    <nav>
+        <a onclick="filterItems('yiqi')">辉煌假象</a>
+        <a onclick="showAllItems()">显示全部</a>
+    </nav>
+    <!-- 搜索框 -->
+    <input type="text" id="search-box" placeholder="搜索物品...">
     <main id="item-container"></main> <!-- 这里将插入从外部文件加载的内容 -->
 
     <footer>
