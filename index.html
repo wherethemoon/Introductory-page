@@ -1,104 +1,133 @@
-
 <!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-		<meta name="description" content="饥荒联机版《能力勋章》官方介绍页，最新最全的内容都在这里~" />
-		<meta name="keywords" content="能力勋章,能力勋章介绍页,恒子,饥荒联机版能力勋章,functional medal,勋章" />
-		<title>字载网·能力勋章介绍页</title>
-		<link href="img/fengmian.png" rel="SHORTCUT ICON">
-		<link rel="stylesheet" type="text/css" href="css/pagestyle.css"/>
-		<link rel="stylesheet" type="text/css" href="css/img_nlxz.css"/>
-		<!-- 多列布局样式表 -->
-		<link id="isscreen" rel="stylesheet" type="text/css" href=""/>
-	</head>
-	<body>
-		<div id="toptitle">
-			<label class="page_title">能力勋章介绍页</label>
-			<div id="searchbox_waikuang">
-				<input type="search"  placeholder="请输入您要搜索的关键字" id="searchbox">
-			</div>
-			<div class="navigation_box">
-				<label class="navigation_button xuanzhong" id="item_button">道具介绍</label>
-				<label class="navigation_button" id="explain_button">模组说明</label>
-				<label class="navigation_button" id="modlist_button">常见问题</label>
-				<label class="navigation_button" id="update_button">更新日志</label>
-				<label class="navigation_button" id="author_button">作者留言</label>
-			</div>
-			<div class="screen_box">
-				<label class="screen_title">主题:</label>
-				<select class="screen_button" id="game_theme">
-					<option value="">全部</option>
-				</select>
-				<label class="screen_title">排序:</label>
-				<select class="screen_button" id="game_sort">
-					<option value="default">默认排序</option>
-					<option value="time">更新时间</option>
-				</select>
-				<label class="screen_title">模式:</label>
-				<select class="screen_button" id="game_level">
-					<option value="default">默认</option>
-					<option value="easy">简易</option>
-				</select>
-			</div>
-		</div>
-		<!-- 多列单列分栏按钮 -->
-		<div id="changescreen" class="smallbutton isscreen" title="改变布局">
-			<span class="duolie">☷</span>
-			<span class="danlie">☰</span>
-		</div>
-		<div id="morebutton" class="smallbutton" title="更多模组">…</div>
-		<div id="rewardbutton" class="smallbutton" title="打赏作者">￥</div>
-		<div id="helpbutton" class="smallbutton" title="介绍页使用说明书">?</div>
-		<div id="game_list">
-			<div class="loading_box">
-				<div class="loading">页面加载中…</div>
-			</div>
-		</div>
-		<div class="analysis_box">
-			<div id="no_alert_again"><u>不再提示</u></div>
-			<div id="analysis_bg"></div>
-			<div id="close_tip">
-				点击任意空白区域关闭
-			</div>
-			<div id="analysis_bg2"></div>
-			<div id="analysis_info">
-				<div class="loading_box" id="qiyujiexi">
-					<b>暂无解析标题</b>
-					<div class="shuoming">
-						<p class="sj2">暂无解析内容</p>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div id="foot">
-			Copyright © 2019 by Hengzi. All Rights Reserved.<br>
-			<a id="beian" target="_blank" href="https://beian.miit.gov.cn">浙ICP备17032705号-1</a>
-		</div>
-	</body>
-	<script src="js/jquery-2.js" type="text/javascript" charset="utf-8"></script>
-	<script src="js/clipboard.js" type="text/javascript" charset="utf-8"></script>
-	
-	<script src="js/medal_item_data.js" type="text/javascript" charset="utf-8"></script>
-	<script src="js/medal_update_log.js" type="text/javascript" charset="utf-8"></script>
-	<script src="js/medal_author_message.js" type="text/javascript" charset="utf-8"></script>
-	<script src="js/medal_mod_explain.js" type="text/javascript" charset="utf-8"></script>
-	<script src="js/mod_list.js" type="text/javascript" charset="utf-8"></script>
-	<script src="js/mod_analysis.js" type="text/javascript" charset="utf-8"></script>
-	<script src="js/medal_q_and_a.js" type="text/javascript" charset="utf-8"></script>
-	<script src="js/medal_theme.js" type="text/javascript" charset="utf-8"></script>
-	<script src="js/show_page_data.js" type="text/javascript" charset="utf-8"></script>
-	
-	<script type="text/javascript">
-		//生成主题分类
-		function setGameTheme() {
-			htmlstr = "";
-			for (var i = 0; i < themeList.length; i++) {
-				htmlstr += "<option value='"+themeList[i].theme_value+"'>"+themeList[i].theme_name+"</option>";
-			}
-			$("#game_theme").append(htmlstr);
-		}
-		setGameTheme();
-	</script>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="《丰耘秘境 V1.2》模组内容介绍">
+    <meta name="keywords" content="丰耘秘境, 饥荒联机版, 模组, 农作物, 辉煌科技, 自然凶险">
+    <title>丰耘秘境 V1.2</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+        header, footer {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+        }
+        nav {
+            background: #333;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        main {
+            padding: 20px;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .hidden {
+            display: none;
+        }
+        .highlight {
+            background-color: #e8f5e9;
+            padding: 10px;
+            border-left: 4px solid #4CAF50;
+        }
+        #search-box {
+            margin: 20px auto;
+            display: block;
+            width: 50%;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>丰耘秘境 V1.2 模组介绍</h1>
+        <p>最新内容更新，探索辉煌与凶险的自然世界！</p>
+    </header>
+    <nav>
+        <a href="#crops">自然辉煌农作物</a>
+        <a href="#tech">自然凶险科技</a>
+        <a href="#features">新增特性</a>
+    </nav>
+    <main>
+        <input type="text" id="search-box" placeholder="搜索内容...">
+        
+        <section id="crops" class="section">
+            <h2>自然辉煌农作物</h2>
+            <button onclick="toggleVisibility('crop-details')">显示/隐藏详情</button>
+            <div id="crop-details" class="hidden">
+                <p class="highlight">坚果、小麦、甘蔗、水稻、金灯果、椰子、牛油果等作物，可通过自然辉煌种子培育。</p>
+                <ul>
+                    <li>椰子：处理后可获得椰汁或椰肉，椰肉可喂鸟获得椰子种子。</li>
+                    <li>金灯果：可制成照明灯，放置金灯果精华提供永久照明。</li>
+                    <li>牛油果：敲开巨大核后获得牛油果肉。</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section id="tech" class="section">
+            <h2>自然凶险科技</h2>
+            <p>凶险科技增加挑战性，提供特殊装备和工具：</p>
+            <ul>
+                <li>凶险守护：穿戴后反弹100%伤害，增加98%防御。</li>
+                <li>凶险控制：附加额外伤害但降低护甲。</li>
+                <li>自然平衡维持器：稳定自然环境，防止生物暴乱。</li>
+            </ul>
+        </section>
+        
+        <section id="features" class="section">
+            <h2>新增特性</h2>
+            <ul>
+                <li>大红袍：直接食用可增加200%伤害，持续60秒。</li>
+                <li>蓝莓帽：增加湿度并掉落特殊材料。</li>
+                <li>洋姜：携带可提升移动速度。</li>
+            </ul>
+        </section>
+    </main>
+    <footer>
+        <p>© 2024 丰耘秘境团队 | 所有权利保留</p>
+    </footer>
+    <script>
+        // 显示/隐藏功能
+        function toggleVisibility(id) {
+            const element = document.getElementById(id);
+            if (element.classList.contains('hidden')) {
+                element.classList.remove('hidden');
+            } else {
+                element.classList.add('hidden');
+            }
+        }
+
+        // 搜索功能
+        document.getElementById('search-box').addEventListener('input', function() {
+            const query = this.value.toLowerCase();
+            const sections = document.querySelectorAll('main .section');
+            sections.forEach(section => {
+                if (section.textContent.toLowerCase().includes(query)) {
+                    section.style.display = '';
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
 </html>
