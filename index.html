@@ -13,40 +13,64 @@
             background-color: #f9f9f9;
             margin: 0;
             padding: 0;
+            padding-top: 60px;  /* 为了避免内容被固定的页眉覆盖 */
+            padding-bottom: 60px;  /* 为了避免内容被固定的页脚覆盖 */
         }
+
         header, footer {
             background-color: #4CAF50;
             color: white;
             text-align: center;
             padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            left: 0;
         }
+
+        header {
+            top: 0;  /* 页眉固定在页面顶部 */
+        }
+
+        footer {
+            bottom: 0;  /* 页脚固定在页面底部 */
+        }
+
         nav {
             background: #333;
             color: white;
             padding: 10px;
             text-align: center;
+            margin-top: 60px;  /* 让导航条不被固定的页眉遮住 */
         }
+
         nav a {
             color: white;
             text-decoration: none;
             margin: 0 15px;
             cursor: pointer;
         }
+
         nav a:hover {
             text-decoration: underline;
         }
+
         main {
             padding: 20px;
+            margin-top: 20px;  /* 留出一些空隙，避免内容紧挨着导航栏 */
+            margin-bottom: 20px;  /* 留出空隙，避免内容紧挨着页脚 */
         }
+
         .item {
             border: 1px solid #ccc;
             margin: 10px 0;
             padding: 10px;
             background: white;
         }
+
         .hidden {
             display: none;
         }
+
         #search-box {
             margin: 20px auto;
             display: block;
@@ -76,16 +100,15 @@
     <script>
         // 加载外部文件内容到 main 部分
         function reloadItems() {
-    fetch('html-main/yiqi.html')  // 通过 fetch 获取 items.html 内容
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById('item-container').innerHTML = data;
-        })
-        .catch(error => console.error('加载文件失败:', error));
+            fetch('html-main/yiqi.html')  // 通过 fetch 获取 items.html 内容
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('item-container').innerHTML = data;
+                })
+                .catch(error => console.error('加载文件失败:', error));
         }
-    setInterval(reloadItems, 1000);  // 每 10 秒重新加载一次
+        setInterval(reloadItems, 1000);  // 每 10 秒重新加载一次
 
-        
         // 筛选物品
         function filterItems(tag) {
             const items = document.querySelectorAll('.item');
