@@ -120,6 +120,19 @@
             const items = document.querySelectorAll('.item');
             items.forEach(item => item.classList.remove('hidden'));
         }
+
+           // 搜索功能
+        document.getElementById('search-box').addEventListener('input', function() {
+            const query = this.value.toLowerCase();
+            const sections = document.querySelectorAll('main .section');
+            sections.forEach(section => {
+                if (section.textContent.toLowerCase().includes(query)) {
+                    section.style.display = '';
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+        });
     </script>
 </body>
 </html>
