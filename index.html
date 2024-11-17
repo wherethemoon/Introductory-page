@@ -30,6 +30,7 @@
             color: white;
             text-decoration: none;
             margin: 0 15px;
+            cursor: pointer;
         }
         nav a:hover {
             text-decoration: underline;
@@ -43,18 +44,6 @@
         .hidden {
             display: none;
         }
-        .highlight {
-            background-color: #e8f5e9;
-            padding: 10px;
-            border-left: 4px solid #4CAF50;
-        }
-        #search-box {
-            margin: 20px auto;
-            display: block;
-            width: 50%;
-            padding: 10px;
-            border: 1px solid #ccc;
-        }
     </style>
 </head>
 <body>
@@ -63,21 +52,20 @@
         <p>最新内容更新，探索辉煌与凶险的自然世界！</p>
     </header>
     <nav>
-        <a href="#crops">自然辉煌农作物</a>
-        <a href="#tech">自然凶险科技</a>
-        <a href="#features">新增特性</a>
+        <a onclick="showSection('crops')">自然辉煌农作物</a>
+        <a onclick="showSection('tech')">自然凶险科技</a>
+        <a onclick="showSection('features')">新增特性</a>
+        <a onclick="showAllSections()">显示全部</a>
     </nav>
     <main>
-        <input type="text" id="search-box" placeholder="搜索内容...">
-        
         <section id="crops" class="section">
             <h2>自然辉煌农作物</h2>
-                <ul>
-                    <li>椰子：处理后可获得椰汁或椰肉，椰肉可喂鸟获得椰子种子。</li>
-                    <li>金灯果：可制成照明灯，放置金灯果精华提供永久照明。</li>
-                    <li>牛油果：敲开巨大核后获得牛油果肉。</li>
-                </ul>
-            </div>
+            <p>坚果、小麦、甘蔗、水稻、金灯果、椰子、牛油果等作物，可通过自然辉煌种子培育。</p>
+            <ul>
+                <li>椰子：处理后可获得椰汁或椰肉，椰肉可喂鸟获得椰子种子。</li>
+                <li>金灯果：可制成照明灯，放置金灯果精华提供永久照明。</li>
+                <li>牛油果：敲开巨大核后获得牛油果肉。</li>
+            </ul>
         </section>
         
         <section id="tech" class="section">
@@ -103,28 +91,20 @@
         <p>© 2024 丰耘秘境团队 | 所有权利保留</p>
     </footer>
     <script>
-        // 显示/隐藏功能
-        function toggleVisibility(id) {
-            const element = document.getElementById(id);
-            if (element.classList.contains('hidden')) {
-                element.classList.remove('hidden');
-            } else {
-                element.classList.add('hidden');
-            }
+        function showSection(sectionId) {
+            // 隐藏所有部分
+            const sections = document.querySelectorAll('main .section');
+            sections.forEach(section => section.classList.add('hidden'));
+            
+            // 显示指定部分
+            document.getElementById(sectionId).classList.remove('hidden');
         }
 
-        // 搜索功能
-        document.getElementById('search-box').addEventListener('input', function() {
-            const query = this.value.toLowerCase();
+        function showAllSections() {
+            // 显示所有部分
             const sections = document.querySelectorAll('main .section');
-            sections.forEach(section => {
-                if (section.textContent.toLowerCase().includes(query)) {
-                    section.style.display = '';
-                } else {
-                    section.style.display = 'none';
-                }
-            });
-        });
+            sections.forEach(section => section.classList.remove('hidden'));
+        }
     </script>
 </body>
 </html>
