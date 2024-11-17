@@ -47,7 +47,7 @@
         .hidden {
             display: none;
         }
-         #search-box {
+        #search-box {
             margin: 20px auto;
             display: block;
             width: 50%;
@@ -67,6 +67,9 @@
         <a onclick="filterItems('armor')">护甲</a>
         <a onclick="showAllItems()">显示全部</a>
     </nav>
+    <!-- 搜索框 -->
+    <input type="text" id="search-box" placeholder="搜索物品...">
+
     <main id="item-container">
         <!-- 农作物 -->
         <div class="item" data-tag="crops">
@@ -121,15 +124,15 @@
             items.forEach(item => item.classList.remove('hidden'));
         }
 
-           // 搜索功能
+        // 搜索功能
         document.getElementById('search-box').addEventListener('input', function() {
             const query = this.value.toLowerCase();
-            const sections = document.querySelectorAll('main .section');
-            sections.forEach(section => {
-                if (section.textContent.toLowerCase().includes(query)) {
-                    section.style.display = '';
+            const items = document.querySelectorAll('main .item');
+            items.forEach(item => {
+                if (item.textContent.toLowerCase().includes(query)) {
+                    item.style.display = '';
                 } else {
-                    section.style.display = 'none';
+                    item.style.display = 'none';
                 }
             });
         });
