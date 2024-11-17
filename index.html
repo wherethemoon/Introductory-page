@@ -76,7 +76,7 @@
     <script>
         // 加载外部文件内容到 main 部分
         function reloadItems() {
-    fetch('items.html')  // 通过 fetch 获取 items.html 内容
+    fetch('html-main/item.html')  // 通过 fetch 获取 items.html 内容
         .then(response => response.text())
         .then(data => {
             document.getElementById('item-container').innerHTML = data;
