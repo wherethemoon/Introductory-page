@@ -66,7 +66,7 @@
     </nav>
     <!-- 搜索框 -->
     <input type="text" id="search-box" placeholder="搜索物品...">
-
+    <button class="reload-button">重新加载物品</button>
     <main id="item-container"></main> <!-- 这里将插入从外部文件加载的内容 -->
 
     <footer>
@@ -84,6 +84,7 @@
         .catch(error => console.error('加载文件失败:', error));
         }
     setInterval(reloadItems, 1000);  // 每 10 秒重新加载一次
+         document.querySelector('.reload-button').addEventListener('click', reloadItems);
         
         // 筛选物品
         function filterItems(tag) {
