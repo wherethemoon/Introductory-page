@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="《丰耘秘境 V1.2》模组内容介绍">
-    <meta name="keywords" content="丰耘秘境, 饥荒联机版, 模组, 农作物, 辉煌科技, 自然凶险">
+    <meta name="description" content="《丰耘秘境 V1.2》模组内容展示">
+    <meta name="keywords" content="丰耘秘境, 饥荒联机版, 模组, 标签筛选, 分类展示">
     <title>丰耘秘境 V1.2</title>
     <style>
         body {
@@ -38,8 +38,11 @@
         main {
             padding: 20px;
         }
-        .section {
-            margin-bottom: 20px;
+        .item {
+            border: 1px solid #ccc;
+            margin: 10px 0;
+            padding: 10px;
+            background: white;
         }
         .hidden {
             display: none;
@@ -48,71 +51,67 @@
 </head>
 <body>
     <header>
-        <h1>丰耘秘境 V1.2 模组介绍</h1>
-        <p>最新内容更新，探索辉煌与凶险的自然世界！</p>
+        <h1>丰耘秘境 V1.2</h1>
+        <p>物品分类展示系统</p>
     </header>
     <nav>
-        <a onclick="showSection('crops')">自然辉煌</a>
-        <a onclick="showSection('tech')">自然凶险</a>
-        <a onclick="showSection('features')">新增特性</a>
-        <a onclick="showAllSections()">显示全部</a>
+        <a onclick="filterItems('crops')">农作物</a>
+        <a onclick="filterItems('tools')">工具</a>
+        <a onclick="filterItems('armor')">护甲</a>
+        <a onclick="showAllItems()">显示全部</a>
     </nav>
-    <main>
-        <section id="crops" class="section">
-            <ul>
-                <li>椰子：处理后可获得椰汁或椰肉，椰肉可喂鸟获得椰子种子。</li>
-            </ul>
-        </section>
-        
-        <section id="crops" class="section">
-            <ul>
-                <li>金灯果：可制成照明灯，放置金灯果精华提供永久照明。</li>
-            </ul>
-        </section>
+    <main id="item-container">
+        <!-- 农作物 -->
+        <div class="item" data-tag="crops">
+            <h2>金灯果</h2>
+            <p>通过自然辉煌种子培育，可用于制作永久照明。</p>
+        </div>
+        <div class="item" data-tag="crops">
+            <h2>椰子</h2>
+            <p>处理后可获得椰汁或椰肉。</p>
+        </div>
 
-        <section id="crops" class="section">
-            <ul>
-                <li>牛油果：敲开巨大核后获得牛油果肉。</li>
-            </ul>
-        </section>
-        
-        
-        <section id="tech" class="section">
-            <h2>自然凶险科技</h2>
-            <p>凶险科技增加挑战性，提供特殊装备和工具：</p>
-            <ul>
-                <li>凶险守护：穿戴后反弹100%伤害，增加98%防御。</li>
-                <li>凶险控制：附加额外伤害但降低护甲。</li>
-                <li>自然平衡维持器：稳定自然环境，防止生物暴乱。</li>
-            </ul>
-        </section>
-        
-        <section id="features" class="section">
-            <h2>新增特性</h2>
-            <ul>
-                <li>大红袍：直接食用可增加200%伤害，持续60秒。</li>
-                <li>蓝莓帽：增加湿度并掉落特殊材料。</li>
-                <li>洋姜：携带可提升移动速度。</li>
-            </ul>
-        </section>
+        <!-- 工具 -->
+        <div class="item" data-tag="tools">
+            <h2>辉煌工具</h2>
+            <p>多功能工具，耐久为2000点。</p>
+        </div>
+        <div class="item" data-tag="tools">
+            <h2>修补套件</h2>
+            <p>可修补50%耐久的辉煌系列工具。</p>
+        </div>
+
+        <!-- 护甲 -->
+        <div class="item" data-tag="armor">
+            <h2>自然护甲</h2>
+            <p>提供高额防御，耐久为2000点。</p>
+        </div>
+        <div class="item" data-tag="armor">
+            <h2>凶险守护</h2>
+            <p>反弹100%伤害，提供霸体效果。</p>
+        </div>
     </main>
     <footer>
         <p>© 2024 丰耘秘境团队 | 所有权利保留</p>
     </footer>
     <script>
-        function showSection(sectionId) {
-            // 隐藏所有部分
-            const sections = document.querySelectorAll('main .section');
-            sections.forEach(section => section.classList.add('hidden'));
-            
-            // 显示指定部分
-            document.getElementById(sectionId).classList.remove('hidden');
+        // 筛选物品
+        function filterItems(tag) {
+            const items = document.querySelectorAll('.item');
+            items.forEach(item => {
+                // 检查每个物品的 data-tag 属性是否匹配
+                if (item.getAttribute('data-tag') === tag) {
+                    item.classList.remove('hidden');
+                } else {
+                    item.classList.add('hidden');
+                }
+            });
         }
 
-        function showAllSections() {
-            // 显示所有部分
-            const sections = document.querySelectorAll('main .section');
-            sections.forEach(section => section.classList.remove('hidden'));
+        // 显示全部物品
+        function showAllItems() {
+            const items = document.querySelectorAll('.item');
+            items.forEach(item => item.classList.remove('hidden'));
         }
     </script>
 </body>
