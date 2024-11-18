@@ -1,0 +1,35 @@
+
+{{#items}}
+<main id="item-container">
+    <style>
+        .bst {
+            font-weight: bold;
+            font-size: 12px;
+        }
+        .st {
+            font-size: 12px;
+        }
+
+        .item {
+            display: flex; /* 使用flex布局来排列图片和文字 */
+            align-items: center; /* 垂直居中对齐图片和文本 */
+            margin-bottom: 10px; /* 行间距 */
+        }
+
+        .item img {
+            width: 90px; /* 控制图标大小 */
+            height: 90px; /* 控制图标大小 */
+            margin-right: 10px; /* 图片和文字的间距 */
+        }
+    </style>
+
+    <div class="item" data-tag="{{tag}}">
+       <img src="{{image}}" alt="图标">
+      <div>
+          <p><span class="bst">名称:</span><span class="st">{{name}}</span></p>
+          <p><span class="bst">获取:</span><span class="st">{{source}}</span></p>
+          <p><span class="bst">详细:</span><span class="st">{{details}}</span></p>
+     </div>
+</div>
+</main>
+{{/items}}
