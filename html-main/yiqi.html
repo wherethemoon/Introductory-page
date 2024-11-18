@@ -1,12 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<main id="item-container">
+    <style>
+        .bst {
+            font-weight: bold;
+            font-size: 12px;
+        }
+        .st {
+            font-size: 12px;
+        }
+
+        .item {
+            display: flex; /* 使用flex布局来排列图片和文字 */
+            align-items: center; /* 垂直居中对齐图片和文本 */
+            margin-bottom: 10px; /* 行间距 */
+        }
+
+        .item img {
+            width: 90px; /* 控制图标大小 */
+            height: 90px; /* 控制图标大小 */
+            margin-right: 10px; /* 图片和文字的间距 */
+        }
+    </style>
+    
     <script src="https://cdn.jsdelivr.net/npm/mustache@4.2.0/mustache.min.js"></script>
     <script defer src="script.js"></script>
-</head>
-<body>
-    <main id="item-container"></main>
-</body>
-</html>
+</main>
+
