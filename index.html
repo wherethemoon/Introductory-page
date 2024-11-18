@@ -129,7 +129,32 @@
     <input type="text" id="search-box" placeholder="搜索物品...">
     </header>
     
-    <main id="item-container"></main> <!-- 这里将插入从外部文件加载的内容 -->
+    <main id="item-container">
+        <style>
+            .bst {
+                font-weight: bold;
+                font-size: 12px;
+            }
+            .st {
+                font-size: 12px;
+            }
+    
+            .item {
+                display: flex; /* 使用flex布局来排列图片和文字 */
+                align-items: center; /* 垂直居中对齐图片和文本 */
+                margin-bottom: 10px; /* 行间距 */
+            }
+    
+            .item img {
+                width: 90px; /* 控制图标大小 */
+                height: 90px; /* 控制图标大小 */
+                margin-right: 10px; /* 图片和文字的间距 */
+            }
+        </style>
+        
+        <script src="https://cdn.jsdelivr.net/npm/mustache@4.2.0/mustache.min.js"></script>
+        <script defer src="script.js"></script>
+    </main> <!-- 这里将插入从外部文件加载的内容 -->
 
     <footer>
         <p>© 2024 丰耘秘境团队 | 所有权利保留</p>
@@ -137,16 +162,7 @@
     </footer>
 
     <script>
-        // 加载外部文件内容到 main 部分
-        function reloadItems() {
-            fetch('html-main/yiqi.html')  // 通过 fetch 获取 items.html 内容
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('item-container').innerHTML = data;
-                })
-                .catch(error => console.error('加载文件失败:', error));
-        }
-        setInterval(reloadItems, 1000);  // 每 10 秒重新加载一次
+
 
         // 筛选物品
         function filterItems(tag) {
