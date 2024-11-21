@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="img/fengmian.png" rel="SHORTCUT ICON">
+    <meta name="description" content="《丰耘秘境》模组内容展示">
+    <meta name="keywords" content="丰耘秘境,丰耘秘境介绍页" />
+    <title>丰耘秘境介绍页</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #1A3636;
+            margin: 0;
+            padding: 0;
+            padding-top: 80px;  /* 为了避免内容被固定的页眉覆盖 */
+            padding-bottom: 60px;  /* 为了避免内容被固定的页脚覆盖 */
+        }
+
+        header, footer {
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            left: 0;
+            border-radius: 15px 15px 15px 15px;
+        }
+
+        header {
+            top: 0;  /* 页眉固定在页面顶部 */
+            height: 100px;
+            background-color: #1A3636;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            left: 0;
+            top: 0;
+            height: 150px; /* 新高度 */
+            display: flex;
+            flex-direction: column; /* 垂直排列内容 */
+            align-items: center;    /* 水平居中 */
+            justify-content: center; /* 垂直紧凑 */
+        }
+
+        footer {
+            background-color:#362706
+            
+        }
+        
+        header h1{
+        margin: 0; /* 去除默认外边距 */
+        padding: 0; /* 去除默认内边距 */
+        }
+
+        header h1 {
+        margin-bottom: 5px; /* 减小 <h1> 和 <p> 之间的空隙 */
+        margin-top: 30px;
+        }
+        
+        footer {
+            bottom: 0;  /* 页脚固定在页面底部 */
+        }
+
+        nav {
+             background: #4A4947;
+             color: white;
+             padding: 5px 0; /* 减少内部空隙 */
+             text-align: center;
+             margin-top: 5px; /* 控制与标题的距离 */
+             border-radius: 15px
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            cursor: pointer;
+            top: -20px; 
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        main {
+            padding: 20px;
+            margin-top: 20px;  /* 留出一些空隙，避免内容紧挨着导航栏 */
+            margin-bottom: 20px;  /* 留出空隙，避免内容紧挨着页脚 */
+            background:#40534C;
+            color:white;
+        }
+
+        .item {
+            border: 1px solid #ccc;
+            margin: 10px 0;
+            padding: 10px;
+            border-image: #A3C9A8;
+            border-radius: 10px; /* 可选：让边框圆角更美观 */
+            background:#677D6A;
+            
+        }
+
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .popup {
+            background: #B5CFB7;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 1000px;
+            width: 100%;
+            text-align: center;
+            max-height: 80%;              /* 设置最大高度为屏幕高度的 80% */
+            height: auto;                 /* 自适应内容高度 */
+            overflow-x: hidden;           /* 禁用横向滚动条 */
+            overflow-y: auto;             /* 启用竖向滚动条 */
+            box-sizing: border-box;       /* 确保 padding 不会影响到高度计算 */
+        }
+
+        .popup img {
+            width: 90px; /* 控制图标大小 */
+            height: 90px; /* 控制图标大小 */
+            margin-right: 10px; /* 图片和文字的间距 */
+        }
+
+        .popup-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 20px;
+            font-weight: bold;
+            color: #4cff0b;
+        }
+
+        .popup-close:hover {
+        color: red;
+    }
+
+
+        .hidden {
+            display: none;
+        }
+
+        #search-box {
+            margin-top: 5px; /* 控制与导航栏的距离 */
+            margin-bottom: 0;
+            display: block;
+            width: 50%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+        }
+        
+
+    </style>
+</head>
+
+
+<body>
+    <header>
+        <h1>丰耘秘境介绍页</h1>
+        <nav>
+        <a onclick="filterItems('yiqi')">辉煌假象</a>
+        <a onclick="showAllItems()">显示全部</a>
+    </nav>
+    <!-- 搜索框 -->
+    <input type="text" id="search-box" placeholder="搜索物品...">
+    </header>
+    
+    <main id="popup-container">
+        <script src="https://cdn.jsdelivr.net/npm/mustache@4.2.0/mustache.min.js"></script>
+        <script defer src="neirong.js"></script>
+    </main>
+
+    <main id="item-container">
+        <script src="https://cdn.jsdelivr.net/npm/mustache@4.2.0/mustache.min.js"></script>
+        <script defer src="neirong.js"></script>
+    </main> <!-- 这里将插入从外部文件加载的内容 -->
+
+    <footer>
+        <p>© 2024 丰耘秘境团队 | 所有权利保留</p>
+        <p>反馈进群667332070</p>
+    </footer>
+    <script defer src="neirong.js"></script>
+</body>
+</html>
