@@ -1,67 +1,36 @@
-<main id="item-container">
-    <style>
-        .bst {
-            font-weight: bold;
-            font-size: 12px;
-        }
-        .st {
-            font-size: 12px;
-        }
+<section id="items">
+  {{#items}}
+  <div class="item {{class}}" data-tag="{{tag}}" {{#hasPopup}}data-popupid="{{popupId}}"{{/hasPopup}}>
+    <img src="{{image}}" alt="{{name}}">
+    <div>
+      <p><span class="bst">名称：</span><span class="st">{{name}}</span></p>
+      <p><span class="bst">获取：</span><span class="st">{{source}}</span></p>
+      <p><span class="bst">详细：</span><span class="st">{{details}}</span></p>
 
-        .item {
-            display: flex; /* 使用flex布局来排列图片和文字 */
-            align-items: center; /* 垂直居中对齐图片和文本 */
-            margin-bottom: 10px; /* 行间距 */
-        }
-
-        .item img {
-            width: 90px; /* 控制图标大小 */
-            height: 90px; /* 控制图标大小 */
-            margin-right: 10px; /* 图片和文字的间距 */
-        }
-        
-        .popup-button {
-             background: #4A4947;
-             color: white;
-             padding: 5px 0; /* 减少内部空隙 */
-             text-align: center;
-             margin-top: 5px; /* 控制与标题的距离 */
-             border-radius: 10px
-        }        
-    </style>
-
-    {{#items}}
-    <div class="item {{class}}" data-tag="{{tag}}" data-popupid="{{popupId}}">
-        <img src="{{image}}" alt="{{name}}">
-        <div>
-            <p><span class="bst">名称:</span><span class="st">{{name}}</span></p>
-            <p><span class="bst">获取:</span><span class="st">{{source}}</span></p>
-            <p><span class="bst">详细:</span><span class="st">{{details}}</span></p>
-        {{#hasPopup}}
-            <button class="popup-button" data-popupid="{{popupId}}">查看图解</button>
-        {{/hasPopup}}
-        </div>
+      {{#hasPopup}}
+      <button class="popup-button" data-popupid="{{popupId}}">查看图解</button>
+      {{/hasPopup}}
     </div>
-    {{/items}}
+  </div>
+  {{/items}}
+</section>
 
-</main>
-
-<main id="popup-container">
+<section id="popup-container">
   {{#popupDetails}}
-    <div id="global-popup-{{popupId}}" class="popup-overlay" style="display: none;">
-      <div class="popup">
-        <span class="popup-close" id="popup-close-{{popupId}}" style="cursor: pointer;">×</span>
+  <div id="global-popup-{{popupId}}" class="popup-overlay hidden" data-popupid="{{popupId}}">
+    <div class="popup">
+      <span class="popup-close" data-popupid="{{popupId}}">×</span>
 
-        {{#imagesAndTexts}}
-          <img src="{{image}}" alt="弹窗图片">
-          <div class="popup-content">
-            <p><span>{{text}}</span></p>
-          </div>
-        {{/imagesAndTexts}}
-
+      {{#imagesAndTexts}}
+      <div class="popup-row">
+        <img src="{{image}}" alt="弹窗图片">
+        <div class="popup-content">
+          <p>{{text}}</p>
+        </div>
       </div>
+      {{/imagesAndTexts}}
+
     </div>
+  </div>
   {{/popupDetails}}
-</main>
-
-
+</section>
