@@ -7,195 +7,250 @@
     <meta name="description" content="《丰耘秘境》模组内容展示">
     <meta name="keywords" content="丰耘秘境,丰耘秘境介绍页" />
     <title>丰耘秘境介绍页</title>
+
     <style>
+        :root {
+            --bg: #1A3636;
+            --card: #243E3E;
+            --accent: #4A4947;
+            --popup-bg: #B5CFB7;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: Arial, sans-serif;
             line-height: 1.6;
-            background-color: #1A3636;
+            background-color: var(--bg);
             margin: 0;
             padding: 0;
-            padding-top: 80px;  /* 为了避免内容被固定的页眉覆盖 */
-            padding-bottom: 60px;  /* 为了避免内容被固定的页脚覆盖 */
-        }
-
-        header, footer {
-            color: white;
-            text-align: center;
-            padding: 10px 0;
-            position: fixed;
-            width: 100%;
-            left: 0;
-            border-radius: 15px 15px 15px 15px;
+            padding-top: 140px;   /* 让内容不被固定头部挡住 */
+            padding-bottom: 80px; /* 让内容不被固定底部挡住 */
+            color: #f5f5f5;
         }
 
         header {
-            top: 0;  /* 页眉固定在页面顶部 */
-            height: 100px;
-            background-color: #1A3636;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--bg);
             color: white;
             text-align: center;
-            padding: 10px 0;
-            position: fixed;
-            width: 100%;
-            left: 0;
-            top: 0;
-            height: 150px; /* 新高度 */
+            padding: 10px 16px;
             display: flex;
-            flex-direction: column; /* 垂直排列内容 */
-            align-items: center;    /* 水平居中 */
-            justify-content: center; /* 垂直紧凑 */
-        }
-
-        footer {
-            background-color:#362706
-            
-        }
-        
-        header h1{
-        margin: 0; /* 去除默认外边距 */
-        padding: 0; /* 去除默认内边距 */
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+            z-index: 100;
         }
 
         header h1 {
-        margin-bottom: 5px; /* 减小 <h1> 和 <p> 之间的空隙 */
-        margin-top: 30px;
+            margin: 4px 0;
+            font-size: 26px;
         }
-        
-        footer {
-            bottom: 0;  /* 页脚固定在页面底部 */
+
+        header p {
+            margin: 0;
+            font-size: 13px;
+            opacity: 0.8;
         }
 
         nav {
-             background: #4A4947;
-             color: white;
-             padding: 5px 0; /* 减少内部空隙 */
-             text-align: center;
-             margin-top: 5px; /* 控制与标题的距离 */
-             border-radius: 15px
+            margin-top: 8px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
         }
 
         nav a {
-            color: white;
+            color: #fff;
             text-decoration: none;
-            margin: 0 15px;
+            background: var(--accent);
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 13px;
             cursor: pointer;
-            top: -20px; 
+            transition: transform 0.1s ease, filter 0.15s ease;
         }
 
         nav a:hover {
-            text-decoration: underline;
+            filter: brightness(1.15);
+            transform: translateY(-1px);
         }
 
-        main {
-            padding: 20px;
-            margin-top: 20px;  /* 留出一些空隙，避免内容紧挨着导航栏 */
-            margin-bottom: 20px;  /* 留出空隙，避免内容紧挨着页脚 */
-            background:#40534C;
-            color:white;
+        #search-box {
+            margin-top: 8px;
+            margin-bottom: 4px;
+            width: min(420px, 80vw);
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: none;
+            outline: none;
+            font-size: 13px;
+        }
+
+        #item-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 16px 32px;
         }
 
         .item {
-            border: 1px solid #ccc;
-            margin: 10px 0;
-            padding: 10px;
-            border-image: #A3C9A8;
-            border-radius: 10px; /* 可选：让边框圆角更美观 */
-            background:#677D6A;
-            
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--card);
+            border-radius: 16px;
+            padding: 8px 12px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+        }
+
+        .item img {
+            width: 72px;
+            height: 72px;
+            flex-shrink: 0;
+            image-rendering: pixelated;
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .item p {
+            margin: 2px 0;
+        }
+
+        .bst {
+            font-weight: bold;
+            font-size: 13px;
+            margin-right: 4px;
+        }
+
+        .st {
+            font-size: 13px;
+        }
+
+        .popup-button {
+            margin-top: 6px;
+            padding: 4px 10px;
+            border-radius: 999px;
+            border: none;
+            cursor: pointer;
+            font-size: 12px;
+            background: #B5CFB7;
+            color: #243E3E;
+            transition: filter 0.15s ease, transform 0.1s ease;
+        }
+
+        .popup-button:hover {
+            filter: brightness(1.05);
+            transform: translateY(-1px);
         }
 
         .popup-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            display: none;
-            justify-content: center;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.65);
+            display: flex;
             align-items: center;
-            z-index: 1000;
+            justify-content: center;
+            z-index: 200;
         }
 
         .popup {
-            background: #B5CFB7;
-            padding: 20px;
-            border-radius: 8px;
-            max-width: 1000px;
-            width: 100%;
-            text-align: center;
-            max-height: 80%;              /* 设置最大高度为屏幕高度的 80% */
-            height: auto;                 /* 自适应内容高度 */
-            overflow-x: hidden;           /* 禁用横向滚动条 */
-            overflow-y: auto;             /* 启用竖向滚动条 */
-            box-sizing: border-box;       /* 确保 padding 不会影响到高度计算 */
+            background: var(--popup-bg);
+            color: #111;
+            padding: 16px 20px;
+            border-radius: 16px;
+            max-width: 900px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+            position: relative;
+        }
+
+        .popup-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
         }
 
         .popup img {
-            width: 90px; /* 控制图标大小 */
-            height: 90px; /* 控制图标大小 */
-            margin-right: 10px; /* 图片和文字的间距 */
+            width: 72px;
+            height: 72px;
+            flex-shrink: 0;
+            image-rendering: pixelated;
+        }
+
+        .popup-content p {
+            margin: 0;
+            font-size: 13px;
         }
 
         .popup-close {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 8px;
+            right: 12px;
+            font-size: 22px;
             cursor: pointer;
-            font-size: 20px;
-            font-weight: bold;
-            color: #4cff0b;
+            color: #333;
         }
 
         .popup-close:hover {
-        color: red;
-    }
-
+            color: red;
+        }
 
         .hidden {
-            display: none;
+            display: none !important;
         }
 
-        #search-box {
-            margin-top: 5px; /* 控制与导航栏的距离 */
-            margin-bottom: 0;
-            display: block;
-            width: 50%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--bg);
+            color: #ddd;
+            text-align: center;
+            padding: 6px 8px;
+            font-size: 12px;
+            box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.4);
         }
-        
 
+        footer p {
+            margin: 2px 0;
+        }
     </style>
 </head>
-
 
 <body>
     <header>
         <h1>丰耘秘境介绍页</h1>
-        <nav>
-        <a onclick="filterItems('yiqi')">辉煌假象</a>
-        <a onclick="showAllItems()">显示全部</a>
-    </nav>
-    <!-- 搜索框 -->
-    <input type="text" id="search-box" placeholder="搜索物品...">
-    </header>
-    
-    <main id="popup-container">
-        <script src="https://cdn.jsdelivr.net/npm/mustache@4.2.0/mustache.min.js"></script>
-        <script defer src="neirong.js"></script>
-    </main>
+        <p>展示模组内主要物品与概念，仅为辅助说明，具体效果以游戏内说明为准。</p>
 
-    <main id="item-container">
-        <script src="https://cdn.jsdelivr.net/npm/mustache@4.2.0/mustache.min.js"></script>
-        <script defer src="neirong.js"></script>
-    </main> <!-- 这里将插入从外部文件加载的内容 -->
+        <nav>
+            <a onclick="showAllItems()">全部</a>
+            <a onclick="filterItems('yiqi')">辉煌/自然辉煌线</a>
+            <a onclick="filterItems('erqi')">凶险/自然凶险线</a>
+        </nav>
+
+        <input type="text" id="search-box" placeholder="搜索物品名称或说明...">
+    </header>
+
+    <!-- Mustache 渲染后的内容会插入到这里 -->
+    <main id="item-container"></main>
 
     <footer>
         <p>© 2024 丰耘秘境团队 | 所有权利保留</p>
-        <p>反馈进群667332070</p>
+        <p>反馈进群：667332070</p>
     </footer>
-    <script defer src="neirong.js"></script>
+
+    <!-- 模板引擎 + 脚本 -->
+    <script src="https://cdn.jsdelivr.net/npm/mustache@4.2.0/mustache.min.js"></script>
+    <script src="neirong.js"></script>
 </body>
 </html>
