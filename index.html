@@ -9,220 +9,180 @@
     <title>丰耘秘境介绍页</title>
 
     <style>
-        :root {
-            --bg: #1A3636;
-            --card: #243E3E;
-            --accent: #4A4947;
-            --popup-bg: #B5CFB7;
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
+        /* 整体背景 & 字体 */
         body {
             font-family: Arial, sans-serif;
             line-height: 1.6;
             background-color: #1A3636;
             margin: 0;
             padding: 0;
-            padding-top: 140px;   /* 让内容不被固定头部挡住 */
-            padding-bottom: 80px; /* 让内容不被固定底部挡住 */
-            color: #f5f5f5;
+            /* 给固定头/脚留出空间 */
+            padding-top: 90px;
+            padding-bottom: 60px;
+            color: #ffffff;
         }
 
-        header {
+        /* 头部和尾部共性 */
+        header,
+        footer {
             position: fixed;
-            top: 0;
             left: 0;
-            right: 0;
-            background-color: #1A3636;
+            width: 100%;
             color: white;
             text-align: center;
-            padding: 10px 16px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
-            z-index: 100;
+            z-index: 999;
+        }
+
+        /* 头部 */
+        header {
+            top: 0;
+            background-color: #1A3636;
+            border-radius: 0 0 15px 15px;
+            padding: 10px 0 6px 0;
         }
 
         header h1 {
-            margin: 4px 0;
-            font-size: 26px;
-        }
-
-        header p {
             margin: 0;
-            font-size: 13px;
-            opacity: 0.8;
+            font-size: 24px;
         }
 
+        /* 顶部导航条 */
         nav {
-            margin-top: 8px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center;
+            background: #4A4947;
+            color: white;
+            padding: 4px 0;
+            margin-top: 6px;
         }
 
         nav a {
-            color: #fff;
+            display: inline-block;
+            margin: 0 6px;
+            padding: 3px 10px;
+            border-radius: 12px;
             text-decoration: none;
-            background: #4A4947;
-            padding: 4px 12px;
-            border-radius: 999px;
+            color: white;
             font-size: 13px;
             cursor: pointer;
-            transition: transform 0.1s ease, filter 0.15s ease;
         }
 
         nav a:hover {
-            filter: brightness(1.15);
-            transform: translateY(-1px);
+            text-decoration: underline;
         }
 
+        /* 搜索框 */
         #search-box {
-            margin-top: 8px;
-            margin-bottom: 4px;
-            width: min(420px, 80vw);
-            padding: 6px 12px;
-            border-radius: 999px;
-            border: none;
-            outline: none;
+            margin-top: 6px;
+            margin-bottom: 2px;
+            display: block;
+            width: 50%;
+            max-width: 420px;
+            min-width: 220px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 6px 10px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
             font-size: 13px;
         }
 
-        #item-container {
+        /* 主内容容器（JS 会把模板渲染到这里） */
+        main#item-container {
             max-width: 900px;
             margin: 0 auto;
-            padding: 0 16px 32px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            background: #40534C;
+            color: white;
+            padding: 10px 16px 16px 16px;
+            border-radius: 10px;
+            box-sizing: border-box;
         }
 
+        /* 单个物品块（具体结构由 template.mustache 决定） */
         .item {
+            border: 1px solid #ccc;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 10px;
+            background: #677D6A;
+            box-sizing: border-box;
             display: flex;
             align-items: center;
-            gap: 12px;
-            background: #677D6A;
-            border-radius: 16px;
-            padding: 8px 12px;
-            margin-bottom: 10px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+            gap: 10px;
+            border-image: #A3C9A8;
         }
 
         .item img {
-            width: 72px;
-            height: 72px;
             flex-shrink: 0;
-            image-rendering: pixelated;
-            border-radius: 8px;
-            background: rgba(0, 0, 0, 0.5);
         }
 
-        .item p {
-            margin: 2px 0;
-        }
-
-        .bst {
-            font-weight: bold;
-            font-size: 13px;
-            margin-right: 4px;
-        }
-
-        .st {
-            font-size: 13px;
-        }
-
-        .popup-button {
-            margin-top: 6px;
-            padding: 4px 10px;
-            border-radius: 999px;
-            border: none;
-            cursor: pointer;
-            font-size: 12px;
-            background: #B5CFB7;
-            color: #243E3E;
-            transition: filter 0.15s ease, transform 0.1s ease;
-        }
-
-        .popup-button:hover {
-            filter: brightness(1.05);
-            transform: translateY(-1px);
-        }
-
+        /* 弹窗遮罩 & 内容容器 */
         .popup-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.65);
-            display: flex;
-            align-items: center;
+            background: rgba(0, 0, 0, 0.6);
+            display: none;          /* 默认隐藏，由 JS 控制为 flex */
             justify-content: center;
-            z-index: 200;
+            align-items: center;
+            z-index: 1000;
         }
 
         .popup {
-            background: var(--popup-bg);
-            color: #111;
-            padding: 16px 20px;
-            border-radius: 16px;
+            background: #B5CFB7;
+            padding: 20px;
+            border-radius: 8px;
             max-width: 900px;
             max-height: 80vh;
             overflow-y: auto;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
-            position: relative;
+            box-sizing: border-box;
         }
 
         .popup-row {
             display: flex;
             align-items: center;
-            gap: 12px;
             margin-bottom: 10px;
+            gap: 10px;
         }
 
         .popup img {
-            width: 72px;
-            height: 72px;
             flex-shrink: 0;
-            image-rendering: pixelated;
         }
 
-        .popup-content p {
-            margin: 0;
-            font-size: 13px;
-        }
-
+        /* 弹窗关闭按钮 */
         .popup-close {
             position: absolute;
-            top: 8px;
-            right: 12px;
-            font-size: 22px;
+            top: 10px;
+            right: 10px;
             cursor: pointer;
-            color: #333;
+            font-size: 20px;
+            font-weight: bold;
+            color: #4cff0b;
         }
 
         .popup-close:hover {
             color: red;
         }
 
-        .hidden {
-            display: none !important;
-        }
-
+        /* 底部栏 */
         footer {
-            position: fixed;
             bottom: 0;
-            left: 0;
-            right: 0;
-            background: var(--bg);
-            color: #ddd;
-            text-align: center;
-            padding: 6px 8px;
+            background-color: #362706;
+            padding: 6px 0;
+            border-radius: 15px 15px 0 0;
             font-size: 12px;
-            box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.4);
         }
 
         footer p {
             margin: 2px 0;
+        }
+
+        /* 响应式：小屏幕时缩小主内容左右留白 */
+        @media (max-width: 600px) {
+            main#item-container {
+                margin-left: 8px;
+                margin-right: 8px;
+                padding: 8px;
+            }
         }
     </style>
 </head>
@@ -230,28 +190,28 @@
 <body>
     <header>
         <h1>丰耘秘境介绍页</h1>
-        <p>展示模组内主要物品与概念，仅为辅助说明，具体效果以游戏内说明为准。</p>
 
         <nav>
-            <a onclick="showAllItems()">全部</a>
-            <a onclick="filterItems('yiqi')">辉煌/自然辉煌线</a>
-            <a onclick="filterItems('erqi')">凶险/自然凶险线</a>
+            <a onclick="filterItems('yiqi')">辉煌假象</a>
+            <a onclick="showAllItems()">显示全部</a>
         </nav>
 
-        <input type="text" id="search-box" placeholder="搜索物品名称或说明...">
+        <!-- 搜索框 -->
+        <input type="text" id="search-box" placeholder="搜索物品...">
     </header>
 
-    <!-- Mustache 渲染后的内容会插入到这里 -->
-    <main id="item-container"></main>
+    <!-- 这里是 Mustache 渲染后的列表和弹窗的容器 -->
+    <main id="item-container">
+        <!-- JS 会在 DOMContentLoaded 之后将 template.mustache 渲染进来 -->
+    </main>
 
     <footer>
         <p>© 2024 丰耘秘境团队 | 所有权利保留</p>
-        <p>反馈进群：667332070</p>
+        <p>反馈进群667332070</p>
     </footer>
 
-    <!-- 模板引擎 + 脚本 -->
+    <!-- 模板引擎 & 逻辑脚本（各引入一次就够） -->
     <script src="https://cdn.jsdelivr.net/npm/mustache@4.2.0/mustache.min.js"></script>
-    <script src="neirong.js"></script>
+    <script defer src="neirong.js"></script>
 </body>
 </html>
-
