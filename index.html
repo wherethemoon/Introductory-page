@@ -1,3 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="img/fengmian.png" rel="SHORTCUT ICON">
+    <meta name="description" content="《丰耘秘境》模组内容展示">
+    <meta name="keywords" content="丰耘秘境,丰耘秘境介绍页" />
+    <title>丰耘秘境介绍页</title>
+
+    <style>
+        /* 整体背景 & 字体 */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #1A3636;
+            margin: 0;
+            padding: 0;
+            /* 给固定头/脚留出空间 */
+            padding-top: 90px;
+            padding-bottom: 60px;
+            color: #ffffff;
+        }
+
+        /* 头部和尾部共性 */
+        header,
+        footer {
+            position: fixed;
+            left: 0;
+            width: 100%;
+            color: white;
+            text-align: center;
+            z-index: 999;
+        }
+
+        /* 头部 */
+        header {
+            top: 0;
+            background-color: #1A3636;
+            border-radius: 0 0 15px 15px;
+            padding: 10px 0 6px 0;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        /* 顶部导航条 */
+        nav {
+            background: #4A4947;
+            color: white;
+            padding: 4px 0;
+            margin-top: 6px;
+        }
+
+        nav a {
+            display: inline-block;
+            margin: 0 6px;
+            padding: 3px 10px;
+            border-radius: 12px;
+            text-decoration: none;
+            color: white;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        /* 搜索框 */
+        #search-box {
+            margin-top: 6px;
+            margin-bottom: 2px;
+            display: block;
+            width: 50%;
+            max-width: 420px;
+            min-width: 220px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 6px 10px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            font-size: 13px;
+        }
+
+        /* 主内容容器（JS 会把模板渲染到这里） */
+        main#item-container {
+            max-width: 900px;
+            margin: 0 auto;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            background: #40534C;
+            color: white;
+            padding: 10px 16px 16px 16px;
+            border-radius: 10px;
+            box-sizing: border-box;
+        }
+
+        /* 单个物品块（具体结构由 template.mustache 决定） */
+        .item {
+            border: 1px solid #ccc;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 10px;
+            background: #677D6A;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-image: #A3C9A8;
+        }
+
+        .item img {
+            flex-shrink: 0;
+        }
+
+        /* 弹窗遮罩 & 内容容器 */
+        .popup-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            display: none;          /* 默认隐藏，由 JS 控制为 flex */
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .popup {
+            background: #B5CFB7;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 900px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-sizing: border-box;
+        }
+
+        .popup-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            gap: 10px;
+        }
+
+        .popup img {
+            flex-shrink: 0;
+        }
+
+        /* 弹窗关闭按钮 */
+        .popup-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 20px;
+            font-weight: bold;
+            color: #4cff0b;
+        }
+
+        .popup-close:hover {
+            color: red;
+        }
+
+        /* 底部栏 */
+        footer {
+            bottom: 0;
+            background-color: #362706;
+            padding: 6px 0;
+            border-radius: 15px 15px 0 0;
+            font-size: 12px;
+        }
+
+        footer p {
+            margin: 2px 0;
+        }
+
+        /* 响应式：小屏幕时缩小主内容左右留白 */
+        @media (max-width: 600px) {
+            main#item-container {
+                margin-left: 8px;
+                margin-right: 8px;
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+
 <body>
     <header>
         <h1>丰耘秘境介绍页</h1>
@@ -11,15 +200,9 @@
         <input type="text" id="search-box" placeholder="搜索物品...">
     </header>
 
-    <!-- 如果以后想把弹窗单独挂在这里，可以用这个容器。
-         现在先保留这个结构，不会影响配色与布局。 -->
-    <main id="popup-container">
-        <!-- 弹窗相关内容由模板渲染时插入（当前版本可以先留空） -->
-    </main>
-
-    <!-- 模板渲染后的物品列表会插入到这里 -->
+    <!-- 这里是 Mustache 渲染后的列表和弹窗的容器 -->
     <main id="item-container">
-        <!-- 这里将插入从 template.mustache 渲染出来的内容 -->
+        <!-- JS 会在 DOMContentLoaded 之后将 template.mustache 渲染进来 -->
     </main>
 
     <footer>
@@ -27,7 +210,8 @@
         <p>反馈进群667332070</p>
     </footer>
 
-    <!-- 模板引擎与逻辑脚本，只保留一份，放在页面底部 -->
+    <!-- 模板引擎 & 逻辑脚本（各引入一次就够） -->
     <script src="https://cdn.jsdelivr.net/npm/mustache@4.2.0/mustache.min.js"></script>
     <script defer src="neirong.js"></script>
 </body>
+</html>
