@@ -9,132 +9,403 @@
     <title>丰耘秘境介绍页</title>
 
     <style>
-        /* 整体背景 & 字体 */
+        :root {
+            --bg: #1A3636;
+            --nav: #4A4947;
+            --panel: #40534C;
+            --card: #677D6A;
+            --accent: #A3C9A8;
+            --footer: #362706;
+            --popup: #B5CFB7;
+            --highlight: #4cff0b;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: Arial, sans-serif;
             line-height: 1.6;
-            background-color: #1A3636;
+            background-color: var(--bg);
+            color: #f7f7f2;
             margin: 0;
             padding: 0;
-            /* 给固定头/脚留出空间 */
-            padding-top: 90px;
-            padding-bottom: 60px;
-            color: #ffffff;
+            padding-top: 190px;   /* 固定头部高度预留空间 */
+            padding-bottom: 80px; /* 固定底部高度预留空间 */
         }
 
-        /* 头部和尾部共性 */
-        header,
-        footer {
+        /* 背景：做一点“田垄”纹理 */
+        body::before {
+            content: "";
             position: fixed;
-            left: 0;
-            width: 100%;
-            color: white;
-            text-align: center;
-            z-index: 999;
+            inset: 0;
+            background-image:
+                linear-gradient(
+                    135deg,
+                    rgba(54, 39, 6, 0.22) 0,
+                    rgba(54, 39, 6, 0.22) 1px,
+                    transparent 1px,
+                    transparent 16px
+                );
+            opacity: 0.5;
+            pointer-events: none;
+            mix-blend-mode: soft-light;
+            z-index: -1;
         }
 
-        /* 头部 */
         header {
+            position: fixed;
             top: 0;
-            background-color: #1A3636;
-            border-radius: 0 0 15px 15px;
-            padding: 10px 0 6px 0;
+            left: 0;
+            right: 0;
+            z-index: 999;
+            background: linear-gradient(135deg, #1A3636 0%, #40534C 60%, #1A3636 100%);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.55);
+            border-radius: 0 0 20px 20px;
         }
 
-        header h1 {
-            margin: 0;
-            font-size: 24px;
-        }
-
-        /* 顶部导航条 */
-        nav {
-            background: #4A4947;
-            color: white;
-            padding: 4px 0;
-            margin-top: 6px;
-        }
-
-        nav a {
-            display: inline-block;
-            margin: 0 6px;
-            padding: 3px 10px;
-            border-radius: 12px;
-            text-decoration: none;
-            color: white;
-            font-size: 13px;
-            cursor: pointer;
-        }
-
-        nav a:hover {
-            text-decoration: underline;
-        }
-
-        /* 搜索框 */
-        #search-box {
-            margin-top: 6px;
-            margin-bottom: 2px;
-            display: block;
-            width: 50%;
-            max-width: 420px;
-            min-width: 220px;
-            margin-left: auto;
-            margin-right: auto;
-            padding: 6px 10px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            font-size: 13px;
-        }
-
-        /* 主内容容器（JS 会把模板渲染到这里） */
-        main#item-container {
-            max-width: 900px;
+        .header-inner {
+            max-width: 1120px;
             margin: 0 auto;
-            margin-top: 10px;
-            margin-bottom: 20px;
-            background: #40534C;
-            color: white;
-            padding: 10px 16px 16px 16px;
-            border-radius: 10px;
-            box-sizing: border-box;
-        }
-
-        /* 单个物品块（具体结构由 template.mustache 决定） */
-        .item {
-            border: 1px solid #ccc;
-            margin: 10px 0;
-            padding: 10px;
-            border-radius: 10px;
-            background: #677D6A;
-            box-sizing: border-box;
+            padding: 12px 18px 10px 18px;
             display: flex;
             align-items: center;
-            gap: 10px;
-            border-image: #A3C9A8;
+            justify-content: space-between;
+            gap: 16px;
         }
 
-        .item img {
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .mod-logo {
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
             flex-shrink: 0;
+            background-color: rgba(0, 0, 0, 0.25);
+            padding: 4px;
         }
 
-        /* 弹窗遮罩 & 内容容器 */
+        .mod-title {
+            margin: 0;
+            font-size: 24px;
+            letter-spacing: 1px;
+        }
+
+        .mod-subtitle {
+            margin: 2px 0 0 0;
+            font-size: 13px;
+            opacity: 0.85;
+        }
+
+        .header-right {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            gap: 6px;
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            padding: 3px 10px;
+            border-radius: 999px;
+            font-size: 11px;
+            border: 1px solid rgba(163, 201, 168, 0.7);
+            color: #f7f7f2;
+            background: rgba(64, 83, 76, 0.65);
+        }
+
+        .pill--solid {
+            background: var(--accent);
+            color: #1A3636;
+            border-color: transparent;
+            font-weight: bold;
+        }
+
+        /* 筛选条 */
+        .filter-bar {
+            background: var(--nav);
+            padding: 6px 0;
+        }
+
+        .filter-bar-inner {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 0 18px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .filter-label {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .filter-pill {
+            border: none;
+            outline: none;
+            cursor: pointer;
+            border-radius: 999px;
+            padding: 4px 12px;
+            font-size: 12px;
+            background: rgba(64, 83, 76, 0.7);
+            color: #f7f7f2;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: transform 0.1s ease, box-shadow 0.15s ease, background 0.15s ease;
+        }
+
+        .filter-pill:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.45);
+        }
+
+        .filter-pill.active,
+        .filter-pill.is-default {
+            background: var(--accent);
+            color: #1A3636;
+        }
+
+        /* 搜索行 */
+        .search-row {
+            background: #1A3636;
+            padding: 6px 0 10px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+            border-radius: 0 0 20px 20px;
+        }
+
+        .search-row-inner {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 0 18px 6px 18px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .search-box-wrapper {
+            position: relative;
+            width: min(360px, 100%);
+        }
+
+        #search-box {
+            width: 100%;
+            padding: 6px 10px 6px 28px;
+            border-radius: 999px;
+            border: 1px solid rgba(163, 201, 168, 0.9);
+            font-size: 13px;
+            outline: none;
+            background: #40534C;
+            color: #f7f7f2;
+        }
+
+        #search-box::placeholder {
+            color: #d7e2d8;
+            opacity: 0.7;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 13px;
+            opacity: 0.8;
+            pointer-events: none;
+        }
+
+        /* 页面主布局：左边农具图鉴，右边“田间手记”侧栏 */
+        main#page {
+            max-width: 1120px;
+            margin: 0 auto 40px auto;
+            padding: 16px 18px;
+            display: grid;
+            grid-template-columns: minmax(0, 3.2fr) minmax(260px, 1.4fr);
+            gap: 18px;
+        }
+
+        @media (max-width: 900px) {
+            main#page {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+
+        .catalog {
+            background: rgba(64, 83, 76, 0.96);
+            border-radius: 18px;
+            padding: 14px 16px 16px 16px;
+            box-shadow: 0 10px 22px rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(163, 201, 168, 0.6);
+        }
+
+        .catalog-title-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            align-items: baseline;
+        }
+
+        .catalog h2 {
+            margin: 0 0 4px 0;
+            font-size: 18px;
+        }
+
+        .catalog-badge {
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 999px;
+            background: rgba(163, 201, 168, 0.2);
+            border: 1px solid rgba(163, 201, 168, 0.7);
+            color: #E2F0E4;
+            white-space: nowrap;
+        }
+
+        .catalog-desc {
+            margin: 4px 0 10px 0;
+            font-size: 13px;
+            opacity: 0.88;
+        }
+
+        /* item 容器：让 Mustache 渲染的 .item 更像“种子卡片” */
+        #item-container {
+            margin-top: 4px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 10px;
+        }
+
+        #item-container .item {
+            background: var(--card);
+            border-radius: 14px;
+            padding: 8px 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            border: 1px solid rgba(163, 201, 168, 0.4);
+        }
+
+        #item-container .item img {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            flex-shrink: 0;
+            background: rgba(0, 0, 0, 0.35);
+            image-rendering: pixelated;
+        }
+
+        #item-container .item p {
+            margin: 2px 0;
+            font-size: 12px;
+        }
+
+        #item-container .bst {
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        #item-container .st {
+            font-size: 12px;
+        }
+
+        .popup-button {
+            margin-top: 4px;
+            padding: 3px 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(163, 201, 168, 0.9);
+            background: rgba(181, 207, 183, 0.9);
+            color: #1A3636;
+            font-size: 11px;
+            cursor: pointer;
+            transition: transform 0.1s ease, box-shadow 0.15s ease, background 0.15s ease;
+        }
+
+        .popup-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 7px rgba(0, 0, 0, 0.5);
+            background: #B5CFB7;
+        }
+
+        /* 右侧“田间手记”侧栏 */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .sidebar-card {
+            background: var(--panel);
+            border-radius: 16px;
+            padding: 10px 12px 12px 12px;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.55);
+            border: 1px solid rgba(54, 39, 6, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sidebar-card h3 {
+            margin: 0 0 6px 0;
+            font-size: 15px;
+        }
+
+        .sidebar-card p,
+        .sidebar-card li {
+            font-size: 12px;
+        }
+
+        .sidebar-card ol {
+            padding-left: 18px;
+            margin: 4px 0 0 0;
+        }
+
+        .sidebar-tag {
+            display: inline-block;
+            font-size: 11px;
+            padding: 1px 8px;
+            border-radius: 999px;
+            background: rgba(163, 201, 168, 0.2);
+            border: 1px solid rgba(163, 201, 168, 0.7);
+            margin-bottom: 4px;
+        }
+
+        .sidebar-note {
+            font-size: 11px;
+            opacity: 0.9;
+            margin-top: 4px;
+        }
+
+        /* 弹窗样式（颜色保持你原来的） */
         .popup-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.6);
-            display: none;          /* 默认隐藏，由 JS 控制为 flex */
+            background: rgba(0, 0, 0, 0.65);
+            display: none; /* 由 JS 控制显示 */
             justify-content: center;
             align-items: center;
             z-index: 1000;
         }
 
+        .popup-overlay.show {
+            display: flex;
+        }
+
         .popup {
-            background: #B5CFB7;
-            padding: 20px;
-            border-radius: 8px;
+            background: var(--popup);
+            color: #111;
+            padding: 16px 18px;
+            border-radius: 16px;
             max-width: 900px;
             max-height: 80vh;
             overflow-y: auto;
-            box-sizing: border-box;
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.7);
+            position: relative;
         }
 
         .popup-row {
@@ -145,30 +416,42 @@
         }
 
         .popup img {
+            width: 60px;
+            height: 60px;
             flex-shrink: 0;
+            image-rendering: pixelated;
         }
 
-        /* 弹窗关闭按钮 */
+        .popup-content p {
+            margin: 0;
+            font-size: 13px;
+        }
+
         .popup-close {
             position: absolute;
-            top: 10px;
+            top: 8px;
             right: 10px;
             cursor: pointer;
             font-size: 20px;
             font-weight: bold;
-            color: #4cff0b;
+            color: var(--highlight);
         }
 
         .popup-close:hover {
             color: red;
         }
 
-        /* 底部栏 */
         footer {
+            position: fixed;
             bottom: 0;
-            background-color: #362706;
+            left: 0;
+            right: 0;
+            background-color: var(--footer);
+            color: white;
+            text-align: center;
             padding: 6px 0;
-            border-radius: 15px 15px 0 0;
+            border-radius: 18px 18px 0 0;
+            box-shadow: 0 -6px 14px rgba(0, 0, 0, 0.55);
             font-size: 12px;
         }
 
@@ -176,12 +459,19 @@
             margin: 2px 0;
         }
 
-        /* 响应式：小屏幕时缩小主内容左右留白 */
-        @media (max-width: 600px) {
-            main#item-container {
-                margin-left: 8px;
-                margin-right: 8px;
-                padding: 8px;
+        @media (max-width: 720px) {
+            .header-inner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .header-right {
+                align-self: stretch;
+            }
+            .mod-title {
+                font-size: 20px;
+            }
+            body {
+                padding-top: 210px;
             }
         }
     </style>
@@ -189,29 +479,116 @@
 
 <body>
     <header>
-        <h1>丰耘秘境介绍页</h1>
+        <div class="header-inner">
+            <div class="header-left">
+                <img src="img/fengmian.png" alt="丰耘秘境" class="mod-logo">
+                <div>
+                    <h1 class="mod-title">丰耘秘境</h1>
+                    <p class="mod-subtitle">从一粒种子，到一片丰收的秘境。这里是你的田间笔记与农具图鉴。</p>
+                </div>
+            </div>
+            <div class="header-right">
+                <span class="pill">DST 联机版模组</span>
+                <span class="pill pill--solid">耕耘 / 农田玩法</span>
+            </div>
+        </div>
 
-        <nav>
-            <a onclick="filterItems('yiqi')">辉煌假象</a>
-            <a onclick="showAllItems()">显示全部</a>
-        </nav>
+        <div class="filter-bar">
+            <div class="filter-bar-inner">
+                <span class="filter-label">耕作路线：</span>
+                <button class="filter-pill is-default" data-filter="all" onclick="showAllItems()">全部作物与道具</button>
+                <button class="filter-pill" data-filter="yiqi" onclick="filterItems('yiqi')">自然辉煌线</button>
+                <button class="filter-pill" data-filter="erqi" onclick="filterItems('erqi')">自然凶险线</button>
+            </div>
+        </div>
 
-        <!-- 搜索框 -->
-        <input type="text" id="search-box" placeholder="搜索物品...">
+        <div class="search-row">
+            <div class="search-row-inner">
+                <div class="search-box-wrapper">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="search-box" placeholder="输入物品名称、效果关键字进行查找…" />
+                </div>
+            </div>
+        </div>
     </header>
 
-    <!-- 这里是 Mustache 渲染后的列表和弹窗的容器 -->
-    <main id="item-container">
-        <!-- JS 会在 DOMContentLoaded 之后将 template.mustache 渲染进来 -->
+    <main id="page">
+        <!-- 左侧 农具 / 作物图鉴 -->
+        <section class="catalog">
+            <div class="catalog-title-row">
+                <h2>田间手记 · 作物与道具图鉴</h2>
+                <span class="catalog-badge">支持筛选耕作路线与关键字搜索</span>
+            </div>
+            <p class="catalog-desc">
+                下方列表展示了《丰耘秘境》中主要的作物、精华以及与农田相关的辅助道具。
+                你可以通过上方的「自然辉煌线 / 自然凶险线」筛选不同的耕作思路，也可以直接搜索名称和效果。
+            </p>
+
+            <!-- Mustache 渲染区域：neirong.js 会把 template.mustache 渲染进来 -->
+            <div id="item-container">
+                <!-- 这里的内容会在运行时由 Mustache 渲染填充 -->
+            </div>
+        </section>
+
+        <!-- 右侧 侧栏：“耕作指引 / 小贴士” -->
+        <aside class="sidebar">
+            <div class="sidebar-card">
+                <span class="sidebar-tag">开垦指引</span>
+                <h3>如何开始你的第一块试验田？</h3>
+                <ol>
+                    <li>在世界中寻找并种植本模组新增的作物（如蓝莓、洋姜等）。</li>
+                    <li>通过收获与加工，解锁对应的精华与自然路线（辉煌 / 凶险）。</li>
+                    <li>根据自己的喜好，选择偏「稳健增益」或「高风险高收益」的耕作方案。</li>
+                </ol>
+                <p class="sidebar-note">※ 以上仅为示意文案，具体流程以游戏内配方与说明为准，可按你实际设计修改。</p>
+            </div>
+
+            <div class="sidebar-card">
+                <span class="sidebar-tag">图标说明</span>
+                <h3>页面功能一览</h3>
+                <ul>
+                    <li>顶部筛选按钮：按路线快速切换展示内容。</li>
+                    <li>搜索框：支持按物品名称和文本说明模糊匹配。</li>
+                    <li>「查看图解」：打开更详细的机制说明弹窗。</li>
+                </ul>
+                <p class="sidebar-note">
+                    如果你之后补充了更多机制图解，只需要在
+                    <code>neirong.js</code> 里继续往 <code>popupDetails</code> 追加数据即可在此页面自动展示。
+                </p>
+            </div>
+
+            <div class="sidebar-card">
+                <span class="sidebar-tag">版本与反馈</span>
+                <h3>联机测试 & 反馈渠道</h3>
+                <p>当前版本已在小规模联机场景下进行过基础测试。</p>
+                <p class="sidebar-note">
+                    如果发现数值问题或 Bug，欢迎加群 <strong>667332070</strong> 反馈。
+                    你也可以在 <code>img/md.md</code> 中写更完整的模组说明，后续扩展到单独的“模组介绍”页面。
+                </p>
+            </div>
+        </aside>
     </main>
 
     <footer>
         <p>© 2024 丰耘秘境团队 | 所有权利保留</p>
-        <p>反馈进群667332070</p>
+        <p>反馈进群 667332070</p>
     </footer>
 
-    <!-- 模板引擎 & 逻辑脚本（各引入一次就够） -->
+    <!-- 模板引擎 & 逻辑脚本（各引入一次即可） -->
     <script src="https://cdn.jsdelivr.net/npm/mustache@4.2.0/mustache.min.js"></script>
-    <script defer src="neirong.js"></script>
+    <script src="neirong.js"></script>
+
+    <!-- 可选：让筛选按钮有“选中高亮”的小交互，不影响 neirong.js 逻辑 -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const pills = document.querySelectorAll(".filter-pill");
+            pills.forEach(pill => {
+                pill.addEventListener("click", () => {
+                    pills.forEach(p => p.classList.remove("active"));
+                    pill.classList.add("active");
+                });
+            });
+        });
+    </script>
 </body>
 </html>
