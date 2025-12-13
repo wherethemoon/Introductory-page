@@ -15,9 +15,13 @@
             --panel: #40534C;
             --card: #677D6A;
             --accent: #A3C9A8;
-            --footer: #362706;
-            --popup: #B5CFB7;
-            --highlight: #4cff0b;
+            --footer: #4b3e32;
+
+            --popup: #d8e9d9;
+            --highlight: #7cb784;
+
+            --bark: #704c33;        
+            --heartwood: #e0c29a;  
         }
 
         * {
@@ -60,7 +64,7 @@
             left: 0;
             right: 0;
             z-index: 999;
-            background: linear-gradient(135deg, #1A3636 0%, #40534C 60%, #1A3636 100%);
+            background: linear-gradient(135deg, #265555 0%, #324c42 60%, #6cb2b2 100%);
             box-shadow: 0 8px 18px rgba(0, 0, 0, 0.55);
             border-radius: 0 0 20px 20px;
         }
@@ -71,7 +75,7 @@
             padding: 12px 18px 10px 18px;
             display: flex;
             align-items: center;
-            justify-content: flex-start;  /* 只剩左侧内容 */
+            justify-content: flex-start;  
             gap: 16px;
         }
 
@@ -125,30 +129,42 @@
         }
 
         .filter-pill {
-            border: none;
             outline: none;
             cursor: pointer;
             border-radius: 999px;
-            padding: 4px 12px;
+            padding: 4px 18px;
             font-size: 12px;
-            background: rgba(64, 83, 76, 0.7);
+
+            /* 关键：改背景 + 加边框，让按钮从面板里“跳出来” */
+            background: rgba(247, 247, 242, 0.10);                /* 略微偏亮 */
+            border: 1px solid rgba(247, 247, 242, 0.55);          /* 浅色描边 */
             color: #f7f7f2;
+
             display: inline-flex;
             align-items: center;
             gap: 4px;
-            transition: transform 0.1s ease, box-shadow 0.15s ease, background 0.15s ease;
+            transition:
+                transform 0.1s ease,
+                box-shadow 0.15s ease,
+                background 0.15s ease,
+                border-color 0.15s ease;
         }
 
         .filter-pill:hover {
             transform: translateY(-1px);
             box-shadow: 0 3px 8px rgba(0, 0, 0, 0.45);
+            background: rgba(247, 247, 242, 0.18);                /* hover 再亮一点 */
+            border-color: rgba(247, 247, 242, 0.9);
         }
 
+        /* 默认选中 / 激活状态：用主题色高亮 */
         .filter-pill.active,
         .filter-pill.is-default {
             background: var(--accent);
             color: #1A3636;
+            border-color: rgba(255, 186, 120, 0.95);
         }
+
 
         /* 搜索行 */
         .search-row {
@@ -214,16 +230,19 @@
         }
 
         .catalog {
-            background: rgba(64, 83, 76, 0.96);
-            border-radius: 18px;
+            background: var(--heartwood);
+            border-radius: 20px;
             padding: 14px 16px 16px 16px;
-            box-shadow: 0 10px 22px rgba(0, 0, 0, 0.6);
-            border: 1px solid rgba(163, 201, 168, 0.6);
+
+            border: 5px solid var(--bark);
+
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.55);
         }
+
 
         .catalog-title-row {
             display: flex;
-            justify-content: flex-start;  /* 只剩标题 */
+            justify-content: flex-start;    
             gap: 10px;
             align-items: baseline;
         }
@@ -231,6 +250,7 @@
         .catalog h2 {
             margin: 0 0 4px 0;
             font-size: 18px;
+            color: #3a2a1a
         }
 
         /* 原来的 catalog-badge 已删掉，这个类保留也不会显示 */
@@ -242,26 +262,31 @@
             margin: 4px 0 10px 0;
             font-size: 13px;
             opacity: 0.88;
+            color: #3a2a1a
         }
 
         /* item 容器：让 Mustache 渲染的 .item 更像“种子卡片” */
         #item-container {
             margin-top: 4px;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 10px;
         }
 
         #item-container .item {
-            background: var(--card);
+            background: #f7efe2;
             border-radius: 14px;
             padding: 8px 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.45);
+
             display: flex;
             align-items: flex-start;
             gap: 10px;
-            border: 1px solid rgba(163, 201, 168, 0.4);
+
+            border: 1px solid rgba(130, 88, 50, 0.5);
         }
+
 
         #item-container .item img {
             width: 60px;
@@ -275,7 +300,9 @@
         #item-container .item p {
             margin: 2px 0;
             font-size: 12px;
+            color: #3a2a1a;   /* 深棕色文字，搭配浅木底更清晰 */
         }
+
 
         #item-container .bst {
             font-weight: bold;
@@ -288,7 +315,7 @@
 
         .popup-button {
             margin-top: 4px;
-            padding: 3px 10px;
+            padding: 5px 18px;
             border-radius: 999px;
             border: 1px solid rgba(163, 201, 168, 0.9);
             background: rgba(181, 207, 183, 0.9);
@@ -360,23 +387,56 @@
             display: none; /* 由 JS 控制显示 */
             justify-content: center;
             align-items: center;
-            z-index: 1000;
+            z-index: 2000;
         }
 
         .popup-overlay.show {
             display: flex;
         }
 
+        
+
+        /* 外层弹窗：只负责外观和最大高度，不做滚动 */
         .popup {
             background: var(--popup);
             color: #111;
-            padding: 16px 18px;
+            padding: 0;                 /* 内边距移到 inner 里 */
             border-radius: 16px;
             max-width: 900px;
-            max-height: 80vh;
-            overflow-y: auto;
+            max-height: 80vh;           /* 弹窗最高不超过视口 80% */
+            overflow: hidden;           /* 把圆角撑住，但不滚 */
             box-shadow: 0 10px 24px rgba(0, 0, 0, 0.7);
             position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 内层内容区域：这里负责真正的滚动 */
+        .popup-inner {
+            padding: 16px 18px;
+            max-height: 80vh;           /* 和外层一致，或者略小一点 */
+            overflow-y: auto;           /* ✅ 开启垂直滚动条 */
+            box-sizing: border-box;
+        }
+
+
+
+
+
+        .popup-inner::-webkit-scrollbar {
+            width: 6px;                /* 滚动条整体宽度 */
+            background: transparent;   /* 轨道透明 */
+        }
+
+        /* 轨道（背景）透明 */
+        .popup-inner::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        /* 滑块，半透明的一点点 */
+        .popup-inner::-webkit-scrollbar-thumb {
+            background-color: rgba(255,255,255,0.25);  /* 很淡的白/亮色 */
+            border-radius: 999px;
         }
 
         .popup-row {
@@ -391,6 +451,31 @@
             height: 60px;
             flex-shrink: 0;
             image-rendering: pixelated;
+        }
+
+        /* 弹窗图文 block 通用间距 */
+        .popup-block {
+            margin-bottom: 10px;
+        }
+
+        /* 图片块：居中、大图展示 */
+        .popup-block-image {
+            text-align: center;
+        }
+
+        .popup-block-image img {
+            max-width: 100%;
+            height: auto;
+            max-height: 260px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+            image-rendering: pixelated; /* DST 像素风保留颗粒感 */
+        }
+
+        /* 文本块 */
+        .popup-block-text {
+            font-size: 13px;
+            line-height: 1.6;
         }
 
         .popup-content p {
@@ -439,6 +524,32 @@
                 padding-top: 210px;
             }
         }
+
+        .popup table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            margin-top: 8px;
+        }
+
+        .popup th,
+        .popup td {
+            padding: 4px 6px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .popup-button {
+            display: inline-block;
+            padding: 5px 15px !important;  /* 左右 20px，够宽了 */
+            border-radius: 999px;
+        }
+
+        .filter-pill {
+            padding: 5px 15px !important;
+        }
+
     </style>
 </head>
 
@@ -449,7 +560,7 @@
                 <img src="img/fengmian.png" alt="丰耘秘境" class="mod-logo">
                 <div>
                     <h1 class="mod-title">丰耘秘境</h1>
-                    <p class="mod-subtitle">从一粒种子，到一片丰收的秘境。这里是你的田间笔记与农具图鉴。</p>
+                    <p class="mod-subtitle">从一粒种子，到一片丰收的秘境。</p>
                 </div>
             </div>
             <!-- 右上角两个圆角图标已移除 -->
@@ -457,12 +568,85 @@
 
         <div class="filter-bar">
             <div class="filter-bar-inner">
-                <span class="filter-label">耕作路线：</span>
-                <button class="filter-pill is-default" data-filter="all" onclick="showAllItems()">全部作物与道具</button>
-                <button class="filter-pill" data-filter="yiqi" onclick="filterItems('yiqi')">自然辉煌线</button>
-                <button class="filter-pill" data-filter="erqi" onclick="filterItems('erqi')">自然凶险线</button>
+                <span class="filter-label">分类：</span>
+
+                <!-- 全部 -->
+                <button class="filter-pill is-default" data-filter="all" onclick="showAllItems()">
+                    全部
+                </button>
+
+                <!-- 装备 -->
+                <button class="filter-pill" data-filter="equip" onclick="filterItems('equip')">
+                    装备
+                </button>
+
+                <!-- 建筑 -->
+                <button class="filter-pill" data-filter="structure" onclick="filterItems('structure')">
+                    建筑
+                </button>
+
+                <!-- 材料 -->
+                <button class="filter-pill" data-filter="material" onclick="filterItems('material')">
+                    材料
+                </button>
+
+                <!-- 作物 -->
+                <button class="filter-pill" data-filter="crop" onclick="filterItems('crop')">
+                    作物
+                </button>
+
+                <!-- 调味料 -->
+                <button class="filter-pill" data-filter="seasoning" onclick="filterItems('seasoning')">
+                    调味料
+                </button>
+
+                <!-- 料理 -->
+                <button class="filter-pill" data-filter="dish" onclick="filterItems('dish')">
+                    料理
+                </button>
+
+                <!-- 植物 -->
+                <button class="filter-pill" data-filter="plant" onclick="filterItems('plant')">
+                    植物
+                </button>
+
+                <!-- 生物 -->
+                <button class="filter-pill" data-filter="creature" onclick="filterItems('creature')">
+                    生物
+                </button>
+
+                <!-- boss -->
+                <button class="filter-pill" data-filter="boss" onclick="filterItems('boss')">
+                    boss
+                </button>
+
+                <!-- 人形 -->
+                <button class="filter-pill" data-filter="humanoid" onclick="filterItems('humanoid')">
+                    人形
+                </button>
+
+                <!-- 地形 -->
+                <button class="filter-pill" data-filter="terrain" onclick="filterItems('terrain')">
+                    地形
+                </button>
+
+                <!-- 增益 -->
+                <button class="filter-pill" data-filter="buff" onclick="filterItems('buff')">
+                    增益
+                </button>
+
+                <!-- 奇遇 -->
+                <button class="filter-pill" data-filter="event" onclick="filterItems('event')">
+                    奇遇
+                </button>
+
+                <!-- 联动 -->
+                <button class="filter-pill" data-filter="crossover" onclick="filterItems('crossover')">
+                    联动
+                </button>
             </div>
         </div>
+
 
         <div class="search-row">
             <div class="search-row-inner">
@@ -482,8 +666,8 @@
                 <!-- “支持筛选耕作路线与关键字搜索”徽章已移除 -->
             </div>
             <p class="catalog-desc">
-                下方列表展示了《丰耘秘境》中主要的作物、精华以及与农田相关的辅助道具。
-                你可以通过上方的「自然辉煌线 / 自然凶险线」筛选不同的耕作思路，也可以直接搜索名称和效果。
+                下方列表展示了《丰耘秘境》中主要的作物及道具。
+                你可以通过上方筛选，也可以直接搜索名称和效果。
             </p>
 
             <!-- Mustache 渲染区域：neirong.js 会把 template.mustache 渲染进来 -->
@@ -496,27 +680,24 @@
         <aside class="sidebar">
             <div class="sidebar-card">
                 <span class="sidebar-tag">开垦指引</span>
-                <h3>如何开始你的第一块试验田？</h3>
+                <h3>如何开始你的第一步？</h3>
+                <p class="sidebar-note">
+                    在制作栏中使用花瓣/恶魔花瓣来制作辉煌/凶险种子吧！
+                </p>
                 <ol>
-                    <li>在世界中寻找并种植本模组新增的作物（如蓝莓、洋姜等）。</li>
-                    <li>通过收获与加工，解锁对应的精华与自然路线（辉煌 / 凶险）。</li>
-                    <li>根据自己的喜好，选择偏「稳健增益」或「高风险高收益」的耕作方案。</li>
-                </ol>
-                <p class="sidebar-note">※ 以上仅为示意文案，具体流程以游戏内配方与说明为准，可按你实际设计修改。</p>
-            </div>
 
+                </ol>
+            </div>
             <div class="sidebar-card">
-                <span class="sidebar-tag">图标说明</span>
+          
+
+            <span class="sidebar-tag">图标说明</span>
                 <h3>页面功能一览</h3>
                 <ul>
                     <li>顶部筛选按钮：按路线快速切换展示内容。</li>
                     <li>搜索框：支持按物品名称和文本说明模糊匹配。</li>
-                    <li>「查看图解」：打开更详细的机制说明弹窗。</li>
+                    <li>「查看详解」：打开更详细的机制说明弹窗。</li>
                 </ul>
-                <p class="sidebar-note">
-                    如果你之后补充了更多机制图解，只需要在
-                    <code>neirong.js</code> 里继续往 <code>popupDetails</code> 追加数据即可在此页面自动展示。
-                </p>
             </div>
 
             <div class="sidebar-card">
@@ -525,10 +706,26 @@
                 <p>当前版本已在小规模联机场景下进行过基础测试。</p>
                 <p class="sidebar-note">
                     如果发现数值问题或 Bug，欢迎加群 <strong>667332070</strong> 反馈。
-                    你也可以在 <code>img/md.md</code> 中写更完整的模组说明，后续扩展到单独的“模组介绍”页面。
                 </p>
             </div>
+
+            <div class="sidebar-card">
+                <span class="sidebar-tag">模组说明</span>
+                <h3>查看模组简介</h3>
+                <p>这里会打开《丰耘秘境模组简介》。</p>
+                <button class="popup-button" id="btn-mod-intro">打开模组简介</button>
+            </div>
+
+
+            <div class="sidebar-card">
+                <span class="sidebar-tag">数据总览</span>
+                <h3>灵枢织造箱 & 农作物表格</h3>
+                <p>快速查看灵枢织造箱生产组以及主要农作物的基础信息。</p>
+                <button class="popup-button" id="btn-lingshu">灵枢织造箱生产组</button>
+                <button class="popup-button" id="btn-crops">农作物一览</button>
+            </div>
         </aside>
+
     </main>
 
     <footer>
@@ -536,11 +733,97 @@
         <p>反馈进群 667332070</p>
     </footer>
 
-    <!-- 模板引擎 & 逻辑脚本（各引入一次即可） -->
+    <!-- 模组简介弹窗 -->
+    <div class="popup-overlay" id="popup-mod-intro" style="display:none;">
+        <div class="popup">
+            <div class="popup-inner">
+                <span class="popup-close">×</span>
+                <div id="mod-intro-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 灵枢织造箱生产组弹窗 -->
+    <div class="popup-overlay" id="popup-lingshu" style="display:none;">
+        <div class="popup">
+            <div class="popup-inner">
+                <span class="popup-close">×</span>
+                <h3>灵枢织造箱生产组一览</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>组名</th>
+                            <th>优先级</th>
+                            <th>生产原料（生产能力）</th>
+                            <th>产品（产出概率）</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lingshu-table-body">
+                        <!-- JS 填充 -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- 农作物总表弹窗 -->
+    <div class="popup-overlay" id="popup-crops" style="display:none;">
+        <div class="popup">
+            <div class="popup-inner">
+                <span class="popup-close">×</span>
+                <h3>农作物一览</h3>
+                <table>
+                        <thead>
+                            <tr>
+                                <th>作物名字</th>
+                                <th>春</th>
+                                <th>夏</th>
+                                <th>秋</th>
+                                <th>冬</th>
+                                <th>阵营</th>
+                                <th>催长剂</th>
+                                <th>堆肥</th>
+                                <th>粪肥</th>
+                            </tr>
+                        </thead>
+                    <tbody id="crop-table-body">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 物品图解弹窗 -->
+    <div class="popup-overlay" id="popup-item" style="display:none;">
+        <div class="popup">
+            <div class="popup-inner">
+                <span class="popup-close">×</span>
+                <h3 id="popup-item-title"></h3>
+                <div id="popup-item-content"></div>
+            </div>
+        </div>
+    </div>
+
+
     <script src="https://cdn.jsdelivr.net/npm/mustache@4.2.0/mustache.min.js"></script>
+
+    <!-- 物品列表数据 -->
+    <script src="fengyun_items.js"></script>
+
+    <!-- 物品图解弹窗数据 -->
+    <script src="fengyun_popups.js"></script>
+
+    <!-- 灵枢织造箱生产组数据 -->
+    <script src="fengyun_lingshu.js"></script>
+
+    <!-- 农作物一览数据 -->
+    <script src="fengyun_crops.js"></script>
+
+    <!-- 最后加载逻辑脚本 -->
     <script src="neirong.js"></script>
 
-    <!-- 可选：让筛选按钮有“选中高亮”的小交互，不影响 neirong.js 逻辑 -->
+
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const pills = document.querySelectorAll(".filter-pill");

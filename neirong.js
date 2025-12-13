@@ -1,14 +1,32 @@
-let currentTag = "all";
-let currentQuery = "";
+
+let currentTag = "all";   
+let currentQuery = "";    
+
+function openOverlayById(id) {
+    const overlay = document.getElementById(id);
+    if (!overlay) return;
+    overlay.style.display = "flex";   
+}
+
+function closeOverlayById(id) {
+    const overlay = document.getElementById(id);
+    if (!overlay) return;
+    overlay.style.display = "none";
+}
 
 function applyFilters() {
     const items = document.querySelectorAll(".item");
     items.forEach(item => {
-        const tag = item.dataset.tag || "all";
+        const raw = item.dataset.tag || "";                 
+        const tags = raw.split(/\s+/).filter(Boolean);      
         const text = item.textContent.toLowerCase();
 
-        const matchesTag = currentTag === "all" || tag === currentTag;
-        const matchesQuery = !currentQuery || text.includes(currentQuery);
+        const matchesTag =
+            currentTag === "all" ||
+            tags.includes(currentTag);                      
+
+        const matchesQuery =
+            !currentQuery || text.includes(currentQuery);
 
         item.style.display = matchesTag && matchesQuery ? "" : "none";
     });
@@ -24,60 +42,13 @@ function showAllItems() {
     applyFilters();
 }
 
+const items = Array.isArray(window.FENGYUN_ITEMS) ? window.FENGYUN_ITEMS : [];
+const popupDetails = window.FENGYUN_POPUPS || {};
+
 document.addEventListener("DOMContentLoaded", async () => {
-    // 物品列表：先把 source / details 留空，后面可以按实际效果补充
-    const items = [
-        { class: "item", tag: "yiqi", image: "img/blueberry.png",                name: "蓝莓",           source: "", details: "" },
-        { class: "item", tag: "yiqi", image: "img/ginger.png",                   name: "洋姜",           source: "", details: "" },
-        { class: "item", tag: "yiqi", image: "img/honor_armor.png",              name: "辉煌护甲",       source: "", details: "" },
-        { class: "item", tag: "yiqi", image: "img/honor_coconut.png",            name: "椰子",           source: "", details: "" },
-        { class: "item", tag: "yiqi", image: "img/honor_balance_maintainer.png", name: "自然平衡维持器", source: "", details: "", hasPopup: true, popupId: 1 },
-        { class: "item", tag: "yiqi", image: "img/honor_coconut_prime.png",      name: "椰子精华",       source: "", details: "" },
-        { class: "item", tag: "yiqi", image: "img/honor_greenjuice.png",         name: "植物清汁",       source: "", details: "" },
-        { class: "item", tag: "yiqi", image: "img/honor_hybird_rice_tree.png",   name: "巨型杂交水稻",   source: "", details: "", hasPopup: true, popupId: 2 },
-        { class: "item", tag: "yiqi", image: "img/honor_kit.png",                name: "辉煌修补套件",   source: "", details: "" },
-        { class: "item", tag: "yiqi", image: "img/honor_multitool.png",          name: "辉煌多用工具",   source: "", details: "" },
-        { class: "item", tag: "yiqi", image: "img/honor_plantfibre.png",         name: "植物纤维",       source: "", details: "" },
-        { class: "item", tag: "yiqi", image: "img/honor_rice_prime.png",         name: "大米精华",       source: "", details: "" },
-        { class: "item", tag: "yiqi", image: "img/honor_seed.png",               name: "辉煌种子",       source: "", details: "" },
-        { class: "item", tag: "yiqi", image: "img/honor_splendor.png",           name: "自然辉煌",       source: "", details: "" },
-        { class: "item", tag: "yiqi", image: "img/honor_stower.png",             name: "自然亲和子塔",   source: "", details: "" },
-        { class: "item", tag: "yiqi", image: "img/honor_tea.png",                name: "茶丛",           source: "", details: "" },
-        { class: "item", tag: "yiqi", image: "img/honor_tea_prime.png",          name: "茶丛精华",       source: "", details: "" },
-        { class: "item", tag: "yiqi", image: "img/honor_wheat_prime.png",        name: "小麦精华",       source: "", details: "" },
-        { class: "item", tag: "yiqi", image: "img/swap_hat-0.png",               name: "辉煌法帽",       source: "", details: "" },
-        { class: "item", tag: "yiqi", image: "img/terror_blueberry_prime.png",   name: "蓝莓精华",       source: "", details: "" },
-        { class: "item", tag: "yiqi", image: "img/terror_dangerous.png",         name: "自然凶险",       source: "", details: "" },
-        { class: "item", tag: "yiqi", image: "img/terror_ginger_prime.png",      name: "洋姜精华",       source: "", details: "" },
-        { class: "item", tag: "yiqi", image: "img/terror_mucous.png",            name: "恐怖粘液",       source: "", details: "" },
-        { class: "item", tag: "yiqi", image: "img/terror_seed.png",              name: "凶险种子",       source: "", details: "" },
-        { class: "item", tag: "yiqi", image: "img/terror_snakeskinfruit.png",    name: "蛇皮果",         source: "", details: "" },
-        { class: "item", tag: "erqi", image: "img/terror_snakeskinfruit_prime.png", name: "蛇皮果精华", source: "", details: "" }
-    ];
 
-    // 弹窗里展示更详细的“图解”内容
-    const popupDetails = [
-        {
-            popupId: 1,
-            imagesAndTexts: [
-                {
-                    image: "img/honor_balance_maintainer.png",
-                    text: "示例说明：自然平衡维持器是本模组的核心装置，用于稳定农田与自然能量的平衡。"
-                }
-            ]
-        },
-        {
-            popupId: 2,
-            imagesAndTexts: [
-                {
-                    image: "img/honor_hybird_rice_tree.png",
-                    text: "示例说明：巨型杂交水稻展示了一条高收益作物的成长链路，可搭配自然辉煌线玩法使用。"
-                }
-            ]
-        }
-    ];
 
-    // 读取模板文件并渲染
+
     try {
         const response = await fetch("template.mustache");
         const template = await response.text();
@@ -88,11 +59,10 @@ document.addEventListener("DOMContentLoaded", async () => {
             container.innerHTML = rendered;
         }
     } catch (err) {
-        console.error("加载模板失败：", err);
-        return;
+        console.error("加载 template.mustache 失败：", err);
     }
 
-    // 搜索功能
+
     const searchInput = document.getElementById("search-box");
     if (searchInput) {
         searchInput.addEventListener("input", () => {
@@ -101,42 +71,239 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     }
 
-    // 初始展示（全部 + 空搜索）
+
     applyFilters();
 
-    // 弹窗显示/关闭
-    document.body.addEventListener("click", (event) => {
-        const target = event.target;
 
-        // 打开弹窗
-        if (target.classList.contains("popup-button")) {
-            const popupId = target.dataset.popupid;
-            if (!popupId) return;
+    setupItemPopups();
 
-            const overlay = document.getElementById(`global-popup-${popupId}`);
-            if (overlay) {
-                overlay.classList.remove("hidden");
-            }
+
+    setupModIntroPopup();
+
+
+    renderLingShuTable();
+    renderCropTable();
+    setupExtraPopups();
+});
+
+
+function buildPopupHtml(info) {
+    // 如果没定义 blocks，就兼容旧的 content 字段
+    if (!info || !Array.isArray(info.blocks) || info.blocks.length === 0) {
+        return info && info.content ? info.content : "";
+    }
+
+    const title = info.title || "";
+
+    return info.blocks.map(block => {
+        if (!block || !block.type) return "";
+
+        // 图片块
+        if (block.type === "image") {
+            const src = block.src || "";
+            const alt = block.alt || title;
+            if (!src) return "";
+            return `
+                <div class="popup-block popup-block-image">
+                    <img src="${src}" alt="${alt}">
+                </div>
+            `;
         }
 
-        // 关闭弹窗：点击关闭按钮 或 点击遮罩空白处
-        if (
-            target.classList.contains("popup-close") ||
-            (target.classList.contains("popup-overlay") && !target.closest(".popup"))
-        ) {
-            const popupId = target.dataset.popupid;
+        // 文字块（内容是 HTML 片段）
+        if (block.type === "text") {
+            const html = block.html || "";
+            return `
+                <div class="popup-block popup-block-text">
+                    ${html}
+                </div>
+            `;
+        }
 
-            if (popupId) {
-                const overlay = document.getElementById(`global-popup-${popupId}`);
-                if (overlay) {
-                    overlay.classList.add("hidden");
-                }
-            } else {
-                // 没有携带 id 的情况，保险起见关所有弹窗
-                document.querySelectorAll(".popup-overlay").forEach(el => {
-                    el.classList.add("hidden");
-                });
-            }
+        // 其他类型暂不处理
+        return "";
+    }).join("");
+}
+
+function setupItemPopups() {
+    const overlay = document.getElementById("popup-item");
+    if (!overlay) return;
+
+    const titleEl = overlay.querySelector("#popup-item-title");
+    const contentEl = overlay.querySelector("#popup-item-content");
+    const closeBtn = overlay.querySelector(".popup-close");
+
+    // 事件代理：点任何一个 .popup-button（查看图解按钮）
+    document.body.addEventListener("click", (event) => {
+        const btn = event.target.closest(".popup-button");
+        if (!btn) return;
+
+        const popupId = btn.dataset.popupid;
+        if (!popupId) return;
+
+        const info = popupDetails[popupId];
+        if (!info) {
+            console.warn("未找到对应的弹窗内容：", popupId);
+            return;
+        }
+
+        if (titleEl) {
+            titleEl.textContent = info.title || "";
+        }
+        if (contentEl) {
+            // ✅ 这里改成用 blocks 生成 HTML
+            contentEl.innerHTML = buildPopupHtml(info);
+        }
+
+        overlay.style.display = "flex";
+    });
+
+    // 点遮罩关闭
+    overlay.addEventListener("click", (e) => {
+        if (e.target === overlay) {
+            overlay.style.display = "none";
         }
     });
-});
+
+    // 点 × 关闭
+    if (closeBtn) {
+        closeBtn.addEventListener("click", () => {
+            overlay.style.display = "none";
+        });
+    }
+}
+
+
+
+function setupModIntroPopup() {
+    const btn = document.getElementById("btn-mod-intro");
+    const overlay = document.getElementById("popup-mod-intro");
+    const content = document.getElementById("mod-intro-content");
+    if (!btn || !overlay || !content) return;
+
+    let loaded = false;
+
+    btn.addEventListener("click", async () => {
+        if (!loaded) {
+            try {
+                const res = await fetch("md.md");
+                const text = await res.text();
+                content.innerHTML = text
+                    .split("\n")
+                    .map(line => line.trim() === "" ? "<br>" : line)
+                    .join("<br>");
+                loaded = true;
+            } catch (e) {
+                console.error(e);
+                content.textContent = "加载模组简介失败，请检查 img/md.md 是否存在。";
+            }
+        }
+        overlay.style.display = "flex";
+    });
+
+    overlay.addEventListener("click", (e) => {
+        if (e.target === overlay) {
+            overlay.style.display = "none";
+        }
+    });
+
+    const closeBtn = overlay.querySelector(".popup-close");
+    if (closeBtn) {
+        closeBtn.addEventListener("click", () => {
+            overlay.style.display = "none";
+        });
+    }
+}
+
+
+
+
+
+
+// ……前面是别的函数
+
+function renderLingShuTable() {
+    const tbody = document.getElementById("lingshu-table-body");
+    if (!tbody) return;
+
+    const groups = window.LINGSHU_GROUPS;
+    if (!Array.isArray(groups)) {
+        console.warn("renderLingShuTable: window.LINGSHU_GROUPS 不存在或不是数组");
+        return;
+    }
+
+    // 调试一下现在拿到的数据
+    console.log("renderLingShuTable 使用的组数 =", groups.length);
+
+    tbody.innerHTML = "";
+
+    groups.forEach(g => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td>${g.group || ""}</td>
+            <td>${g.priority ?? ""}</td>
+            <td>${(g.inputs || []).join("<br>")}</td>
+            <td>${(g.outputs || []).join("<br>")}</td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+
+
+function renderCropTable() {
+    const tbody = document.getElementById("crop-table-body");
+    if (!tbody || !Array.isArray(FENGYUN_CROPS)) return;
+
+    tbody.innerHTML = "";
+    FENGYUN_CROPS.forEach(crop => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td>${crop.name || ""}</td>
+            <td>${crop.spring || ""}</td>
+            <td>${crop.summer || ""}</td>
+            <td>${crop.autumn || ""}</td>
+            <td>${crop.winter || ""}</td>
+            <td>${crop.faction || ""}</td>
+            <td>${crop.booster || ""}</td>
+            <td>${crop.compost || ""}</td>
+            <td>${crop.manure || ""}</td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+
+function setupExtraPopups() {
+    const map = {
+        "btn-lingshu": "popup-lingshu",
+        "btn-crops": "popup-crops"
+    };
+
+    Object.keys(map).forEach(btnId => {
+        const overlayId = map[btnId];
+        const btn = document.getElementById(btnId);
+        const overlay = document.getElementById(overlayId);
+        if (!btn || !overlay) return;
+
+        // 打开弹窗
+        btn.addEventListener("click", () => {
+            overlay.style.display = "flex";
+        });
+
+        // 点击遮罩关闭
+        overlay.addEventListener("click", (e) => {
+            if (e.target === overlay) {
+                overlay.style.display = "none";
+            }
+        });
+
+        // 点 × 关闭
+        const closeBtn = overlay.querySelector(".popup-close");
+        if (closeBtn) {
+            closeBtn.addEventListener("click", () => {
+                overlay.style.display = "none";
+            });
+        }
+    });
+}
