@@ -1,0 +1,89 @@
+<main id="item-container">
+    <style>
+        .bst {
+            font-weight: bold;
+            font-size: 12px;
+        }
+        .st {
+            font-size: 12px;
+        }
+
+        .item {
+            display: flex; 
+            align-items: center; 
+            margin-bottom: 10px; 
+        }
+
+        .item img {
+            width: 90px; 
+            height: 90px; 
+            margin-right: 10px; 
+        }
+        
+        .popup-button {
+             background: #4A4947;
+             color: white;
+             padding: 5px 0; 
+             text-align: center;
+             margin-top: 5px; 
+             border-radius: 10px
+        }        
+    </style>
+
+    {{! 物品列表模板 }}
+
+    {{#items}}
+    <div class="item {{class}}" data-tag="{{tag}}">
+      <img src="{{image}}" alt="{{name}}">
+      <div>
+        <p><span class="bst">名称:</span><span class="st">{{name}}</span></p>
+
+        {{#source}}
+        <p><span class="bst">获取:</span><span class="st">{{source}}</span></p>
+        {{/source}}
+
+        {{#tech}}
+        <p><span class="bst">科技:</span><span class="st">{{tech}}</span></p>
+        {{/tech}}
+
+        {{#details}}
+        <p><span class="bst">详细:</span><span class="st">{{details}}</span></p>
+        {{/details}}
+
+        {{#hasPopup}}
+        <button
+          class="popup-button"
+          data-popupid="{{popupId}}"
+          type="button"
+        >
+          查看详解
+        </button>
+        {{/hasPopup}}
+      </div>
+    </div>
+    {{/items}}
+
+
+</main>
+
+<section id="popup-container">
+  {{#popupDetails}}
+  <div id="global-popup-{{popupId}}" class="popup-overlay">
+    <div class="popup">
+      <span class="popup-close">×</span>
+
+      {{#imagesAndTexts}}
+      <div class="popup-row">
+        <img src="{{image}}" alt="弹窗图片">
+        <div class="popup-content">
+          <p>{{text}}</p>
+        </div>
+      </div>
+      {{/imagesAndTexts}}
+
+    </div>
+  </div>
+  {{/popupDetails}}
+</section>
+
+

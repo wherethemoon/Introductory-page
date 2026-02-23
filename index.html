@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="img/fengmian.png" rel="SHORTCUT ICON">
+    <meta name="description" content="《丰耘秘境》模组内容展示">
+    <meta name="keywords" content="丰耘秘境,丰耘秘境介绍页" />
+    <title>丰耘秘境介绍页</title>
+
+    <style>
+:root{
+  --bg:#1A3636;
+  --nav:#4A4947;
+  --panel:#40534C;
+  --card:#677D6A;
+  --accent:#A3C9A8;
+  --footer:#4b3e32;
+
+  --popup:#d8e9d9;
+  --highlight:#7cb784;
+
+  --bark:#704c33;
+  --heartwood:#e0c29a;
+
+  --r-lg:20px;
+  --r-md:16px;
+  --r-sm:12px;
+  --shadow-1:0 8px 18px rgba(0,0,0,.55);
+  --shadow-2:0 3px 8px rgba(0,0,0,.45);
+  --stroke-dark:rgba(255,255,255,.12);
+  --stroke:rgba(0,0,0,.10);
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
+
+*{ box-sizing:border-box; }
+
+body{
+  margin:0;
+  padding:190px 0 80px;
+  font-family:Arial,sans-serif;
+  line-height:1.55;
+  background:var(--bg);
+  color:#f7f7f2;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background-image:linear-gradient(135deg, rgba(54,39,6,.22) 0, rgba(54,39,6,.22) 1px, transparent 1px, transparent 16px);
+  opacity:.5;
+  pointer-events:none;
+  mix-blend-mode:soft-light;
+  z-index:-1;
+}
+
+header{
+  position:fixed;
+  top:0; left:0; right:0;
+  z-index:999;
+  background:linear-gradient(135deg,#265555 0%,#324c42 60%,#6cb2b2 100%);
+  box-shadow:var(--shadow-1);
+  border-radius:0 0 var(--r-lg) var(--r-lg);
+  border-bottom:1px solid var(--stroke-dark);
+}
+
+.header-inner{
+  max-width:1120px;
+  margin:0 auto;
+  padding:12px 18px 10px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.header-left{ display:flex; align-items:center; gap:12px; }
+
+.mod-logo{
+  width:52px; height:52px;
+  border-radius:var(--r-sm);
+  background:rgba(0,0,0,.25);
+  padding:4px;
+  flex-shrink:0;
+}
+
+.mod-title{ margin:0; font-size:24px; letter-spacing:1px; line-height:1.15; }
+.mod-subtitle{ margin:2px 0 0; font-size:13px; opacity:.85; line-height:1.25; }
+
+.filter-bar{ padding:6px 0; }
+.filter-bar-inner{
+  max-width:1120px;
+  margin:0 auto;
+  padding:0 18px;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  align-items:center;
+  gap:8px;
+}
+.filter-label{ font-size:12px; opacity:.9; }
+
+.filter-pill{
+  cursor:pointer;
+  border-radius:999px;
+  padding:5px 15px;
+  font-size:12px;
+  background:rgba(247,247,242,.10);
+  border:1px solid rgba(247,247,242,.55);
+  color:#f7f7f2;
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  transition:transform .12s var(--ease), box-shadow .18s var(--ease), background .15s var(--ease), border-color .15s var(--ease);
+}
+.filter-pill:hover{
+  transform:translateY(-1px);
+  box-shadow:var(--shadow-2);
+  background:rgba(247,247,242,.18);
+  border-color:rgba(247,247,242,.9);
+}
+.filter-pill:active{ transform:translateY(0); box-shadow:none; }
+.filter-pill:focus-visible{ outline:2px solid rgba(255,255,255,.55); outline-offset:2px; }
+
+.filter-pill.active,
+.filter-pill.is-default{
+  background:var(--accent);
+  color:#1A3636;
+  border-color:rgba(255,186,120,.95);
+}
+
+.search-row{
+  background:var(--bg);
+  padding:10px 0;
+  border-bottom:1px solid rgba(0,0,0,.4);
+  border-radius:0 0 var(--r-lg) var(--r-lg);
+}
+.search-row-inner{
+  max-width:1120px;
+  margin:0 auto;
+  padding:0 18px 6px;
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  align-items:center;
+}
+
+.filter-status{
+  font-size:12px;
+  opacity:.85;
+  color:#f7f7f2;
+  white-space:nowrap;
+}
+
+.search-box-wrapper{
+  position:relative;
+  width:min(360px,100%);
+}
+
+#search-box{
+  width:100%;
+  padding:6px 34px 6px 28px; 
+  border-radius:999px;
+  border:1px solid rgba(163,201,168,.9);
+  font-size:13px;
+  outline:none;
+  background:var(--panel);
+  color:#f7f7f2;
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.04);
+  transition:box-shadow .18s var(--ease);
+}
+#search-box:focus{
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.06), 0 10px 26px rgba(0,0,0,.16);
+}
+#search-box::placeholder{ color:#d7e2d8; opacity:.7; }
+
+.search-icon{
+  position:absolute;
+  left:8px;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:13px;
+  opacity:.85;
+  pointer-events:none;
+}
+
+.search-clear{
+  position:absolute;
+  right:10px;
+  top:50%;
+  transform:translateY(-50%);
+  width:22px; height:22px;
+  border-radius:999px;
+  border:1px solid rgba(247,247,242,.55);
+  background:rgba(247,247,242,.12);
+  color:#f7f7f2;
+  cursor:pointer;
+  line-height:18px;
+  padding:0;
+}
+.search-clear:hover{ background:rgba(247,247,242,.22); }
+.search-clear.hidden{ display:none; }
+
+main#page{
+  max-width:1120px;
+  margin:0 auto 40px;
+  padding:16px 18px;
+  display:grid;
+  grid-template-columns:minmax(0,3.2fr) minmax(260px,1.4fr);
+  gap:18px;
+}
+@media (max-width:900px){
+  main#page{ grid-template-columns:1fr; }
+}
+
+.catalog{
+  background:var(--heartwood);
+  border-radius:var(--r-lg);
+  padding:14px 16px 16px;
+  border:5px solid var(--bark);
+  box-shadow:var(--shadow-1);
+  overflow:hidden;
+}
+.catalog-title-row{ display:flex; gap:10px; align-items:baseline; }
+.catalog h2{ margin:0 0 4px; font-size:18px; color:#3a2a1a; letter-spacing:.4px; }
+.catalog-desc{ margin:0 0 10px; font-size:13px; opacity:.88; color:#3a2a1a; }
+
+#item-container{
+  margin-top:4px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(350px,1fr));
+  gap:14px;
+}
+
+#item-container .item{
+  background:#f7efe2;
+  border-radius:14px;
+  padding:12px;
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+  box-shadow:var(--shadow-2);
+  border:1px solid rgba(130,88,50,.5);
+  transition:transform .12s var(--ease), box-shadow .18s var(--ease);
+}
+#item-container .item:hover{
+  transform:translateY(-2px);
+  box-shadow:var(--shadow-1);
+}
+
+#item-container .item img{
+  width:60px; height:60px;
+  border-radius:10px;
+  flex-shrink:0;
+  background:rgba(0,0,0,.35);
+  image-rendering:pixelated;
+  border:1px solid rgba(0,0,0,.06);
+}
+
+#item-container .item p{
+  margin:6px 0;
+  font-size:12px;
+  color:#3a2a1a;
+}
+
+#item-container .bst{ font-weight:700; font-size:12px; margin-right:6px; }
+#item-container .st{ font-size:12px; }
+
+.popup-button{
+  margin-top: 4px;
+  padding: 3px 10px;      
+  font-size: 10px;        
+  line-height: 1.2;      
+  border-radius: 999px;
+
+  border: 1px solid rgba(163,201,168,.9);
+  background: rgba(181,207,183,.9);
+  color: #1A3636;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,.14);   
+  transition: transform .12s var(--ease), box-shadow .18s var(--ease), background .15s var(--ease);
+}
+.popup-button:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(0,0,0,.18);
+  background: #B5CFB7;
+}
+
+.popup-button:active{ transform:translateY(0); box-shadow:0 6px 14px rgba(0,0,0,.14); }
+.popup-button:focus-visible{ outline:2px solid rgba(0,0,0,.35); outline-offset:2px; }
+
+.sidebar{ display:flex; flex-direction:column; gap:12px; }
+.sidebar-card{
+  background:var(--panel);
+  border-radius:var(--r-md);
+  padding:10px 12px 12px;
+  box-shadow:var(--shadow-1);
+  border:1px solid rgba(54,39,6,.5);
+  overflow:hidden;
+}
+.sidebar-card h3{ margin:0 0 6px; font-size:15px; letter-spacing:.3px; }
+.sidebar-card p, .sidebar-card li{ font-size:12px; }
+.sidebar-card ol{ padding-left:18px; margin:4px 0 0; }
+.sidebar-tag{
+  display:inline-block;
+  font-size:11px;
+  padding:3px 10px;
+  border-radius:999px;
+  background:rgba(163,201,168,.2);
+  border:1px solid rgba(163,201,168,.7);
+  margin-bottom:4px;
+}
+.sidebar-note{ font-size:11px; opacity:.9; margin-top:4px; }
+
+.popup-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.65);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:2000;
+  backdrop-filter:blur(2px);
+}
+
+.popup{
+  background:var(--popup);
+  color:#111;
+  padding:0;
+  border-radius:var(--r-md);
+  max-width:900px;
+  max-height:80vh;
+  overflow:hidden;
+  box-shadow:0 10px 24px rgba(0,0,0,.7);
+  border:1px solid var(--stroke);
+  position:relative;
+  display:flex;
+  flex-direction:column;
+}
+
+.popup-inner{
+  padding:16px 18px;
+  max-height:80vh;
+  overflow-y:auto;
+}
+
+.popup-inner::-webkit-scrollbar{ width:6px; background:transparent; }
+.popup-inner::-webkit-scrollbar-track{ background:transparent; }
+.popup-inner::-webkit-scrollbar-thumb{ background-color:rgba(255,255,255,.25); border-radius:999px; }
+
+.popup-close{
+  position:absolute;
+  top:8px;
+  right:10px;
+  cursor:pointer;
+  font-size:20px;
+  font-weight:700;
+  color:var(--highlight);
+  opacity:.85;
+  transition:transform .12s var(--ease), opacity .18s var(--ease);
+}
+.popup-close:hover{ opacity:1; transform:scale(1.06); color:red; }
+
+.popup-row{ display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+.popup img{ max-width:80px; max-height:80px; flex-shrink:0; image-rendering:pixelated; }
+
+.popup-block{ margin-bottom:10px; }
+.popup-block-image{ text-align:center; }
+.popup-block-image img{
+  max-width:100%;
+  height:auto;
+  max-height:160px;
+  border-radius:8px;
+  /* box-shadow:0 2px 8px rgba(0,0,0,.35); */
+  image-rendering:pixelated;
+}
+.popup-block-text{ font-size:13px; line-height:1.6; }
+.popup-content p{ margin:0; font-size:13px; }
+
+.popup table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:12px;
+  margin-top:8px;
+}
+.popup th, .popup td{
+  padding:4px 6px;
+  border-bottom:1px solid rgba(0,0,0,.12);
+  text-align:left;
+  vertical-align:top;
+}
+
+.inner-link{
+  cursor:pointer;
+  text-decoration:none;
+  background-image:linear-gradient(currentColor,currentColor);
+  background-repeat:no-repeat;
+  background-size:100% 1px;
+  background-position:0 100%;
+  padding-bottom:2px;
+  transition:background-size .15s var(--ease), color .15s var(--ease);
+}
+.inner-link:hover{ background-size:100% 2px; }
+
+header .inner-link,
+.sidebar .inner-link,
+.sidebar-card .inner-link,
+.popup .inner-link{ color:rgba(255,255,255,.92); }
+
+.catalog .inner-link,
+#item-container .inner-link{ color:rgba(0,0,0,.78); }
+
+header .inner-link:hover,
+.sidebar .inner-link:hover,
+.sidebar-card .inner-link:hover,
+.popup .inner-link:hover{ color:rgba(255,255,255,1); }
+
+.catalog .inner-link:hover,
+#item-container .inner-link:hover{ color:rgba(0,0,0,.92); }
+
+.flash-hit{
+  outline:3px solid rgba(163,201,168,.9);
+  box-shadow:0 0 0 8px rgba(163,201,168,.25);
+  border-radius:12px;
+}
+
+footer{
+  position:fixed;
+  bottom:0; left:0; right:0;
+  background:var(--footer);
+  color:#fff;
+  text-align:center;
+  padding:6px 0;
+  border-radius:18px 18px 0 0;
+  box-shadow:0 -6px 14px rgba(0,0,0,.55);
+  font-size:12px;
+}
+footer p{ margin:2px 0; }
+
+@media (max-width:720px){
+  .header-inner{ flex-direction:column; align-items:flex-start; }
+  body{ padding-top:210px; }
+}
+
+
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="header-inner">
+            <div class="header-left">
+                <img src="img/fengmian.png" alt="丰耘秘境" class="mod-logo">
+                <div>
+                    <h1 class="mod-title">丰耘秘境</h1>
+                    <p class="mod-subtitle">从一粒种子，到一片丰收的秘境。</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="filter-bar">
+            <div class="filter-bar-inner">
+                <span class="filter-label">分类：</span>
+
+                <!-- 全部 -->
+                <button class="filter-pill active" data-filter="all" onclick="showAllItems(this)">
+                    全部
+                </button>
+
+                <!-- 装备 -->
+                <button class="filter-pill" data-filter="equip" onclick="filterItems(this, 'equip')">
+                    装备
+                </button>
+
+                <!-- 建筑 -->
+                <button class="filter-pill" data-filter="structure" onclick="filterItems(this, 'structure')">
+                    建筑
+                </button>
+
+                <!-- 材料 -->
+                <button class="filter-pill" data-filter="material" onclick="filterItems(this, 'material')">
+                    材料
+                </button>
+
+                <!-- 作物 -->
+                <button class="filter-pill" data-filter="crop" onclick="filterItems(this, 'crop')">
+                    作物
+                </button>
+
+                <!-- 调味料 -->
+                <button class="filter-pill" data-filter="seasoning" onclick="filterItems(this, 'seasoning')">
+                    调味料
+                </button>
+
+                <!-- 料理 -->
+                <button class="filter-pill" data-filter="dish" onclick="filterItems(this, 'dish')">
+                    料理
+                </button>
+
+                <!-- 植物 -->
+                <button class="filter-pill" data-filter="plant" onclick="filterItems(this, 'plant')">
+                    植物
+                </button>
+
+                <!-- 生物 -->
+                <button class="filter-pill" data-filter="creature" onclick="filterItems(this, 'creature')">
+                    生物
+                </button>
+
+                <!-- boss -->
+                <!-- <button class="filter-pill" data-filter="boss" onclick="filterItems(this, 'boss')">
+                    boss
+                </button> -->
+
+                <!-- 角色 -->
+                <!-- <button class="filter-pill" data-filter="character" onclick="filterItems(this, 'character')">
+                    角色
+                </button> -->
+
+                <!-- 地形 -->
+                <button class="filter-pill" data-filter="terrain" onclick="filterItems(this, 'terrain')">
+                    地形
+                </button>
+
+                <!-- 装饰 -->
+                <button class="filter-pill" data-filter="terrain" onclick="filterItems(this, 'decoration')">
+                    装饰
+                </button>
+
+                <!-- 增益 -->
+                <button class="filter-pill" data-filter="buff" onclick="filterItems(this, 'buff')">
+                    增益
+                </button>
+
+                <!-- 奇遇 -->
+                <button class="filter-pill" data-filter="event" onclick="filterItems(this, 'event')">
+                    奇遇
+                </button>
+
+                <!-- 联动 -->
+                <!-- <button class="filter-pill" data-filter="crossover" onclick="filterItems(this, 'crossover')">
+                    联动
+                </button> -->
+            </div>
+        </div>
+
+
+        <div class="search-row">
+        <div class="search-row-inner">
+            <div id="filter-status" class="filter-status"></div>
+
+            <div class="search-box-wrapper">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="search-box" placeholder="输入物品名称、效果关键字进行查找…" />
+            <button type="button" id="search-clear" class="search-clear hidden" aria-label="清空搜索">×</button>
+            </div>
+        </div>
+        </div>
+
+    </header>
+
+    <main id="page">
+        <section class="catalog">
+            <div class="catalog-title-row">
+                <h2>田间手记 · 作物与道具图鉴</h2>
+
+            </div>
+            <p class="catalog-desc">
+                下方列表展示了《丰耘秘境》中主要的作物及道具。
+                你可以通过上方筛选，也可以直接搜索名称和效果。
+            </p>
+
+            <div id="item-container">
+            </div>
+        </section>
+
+        <aside class="sidebar">
+            <div class="sidebar-card">
+                <span class="sidebar-tag">开垦指引</span>
+                <h3>如何开始你的第一步？</h3>
+                <p class="sidebar-note">
+                    在制作栏中使用花瓣/恶魔花瓣来制作辉煌/凶险种子吧！
+                </p>
+                <ol>
+
+                </ol>
+            </div>
+            <div class="sidebar-card">
+          
+
+            <span class="sidebar-tag">图标说明</span>
+                <h3>页面功能一览</h3>
+                <ul>
+                    <li>顶部筛选按钮：按路线快速切换展示内容。</li>
+                    <li>搜索框：支持按物品名称和文本说明模糊匹配。</li>
+                    <li>「查看详解」：打开更详细的机制说明弹窗。</li>
+                </ul>
+            </div>
+
+            <div class="sidebar-card">
+                <span class="sidebar-tag">版本与反馈</span>
+                <h3>联机测试 & 反馈渠道</h3>
+                <p>当前版本已在小规模联机场景下进行过基础测试。</p>
+                <p class="sidebar-note">
+                    如果发现数值问题或 Bug，欢迎加群 <strong>1037161014</strong> 反馈。
+                </p>
+            </div>
+
+            <div class="sidebar-card">
+                <span class="sidebar-tag">模组说明</span>
+                <h3>查看模组简介</h3>
+                <p>这里会打开《丰耘秘境模组简介》。</p>
+                <button class="popup-button" id="btn-mod-intro">打开模组简介</button>
+            </div>
+
+
+            <div class="sidebar-card">
+                <span class="sidebar-tag">数据总览</span>
+                <h3>灵枢织造箱 & 农作物表格</h3>
+                <p>快速查看灵枢织造箱生产组以及主要农作物的基础信息。</p>
+                <button class="popup-button" id="btn-lingshu">灵枢织造箱生产组</button>
+                <button class="popup-button" id="btn-crops">农作物一览</button>
+            </div>
+        </aside>
+
+    </main>
+
+    <footer>
+        <p>© 2024 丰耘秘境团队 | 所有权利保留</p>
+        <p>反馈进群 667332070</p>
+    </footer>
+
+    <!-- 模组简介弹窗 -->
+    <div class="popup-overlay" id="popup-mod-intro" style="display:none;">
+        <div class="popup">
+            <div class="popup-inner">
+                <span class="popup-close">×</span>
+                <div id="mod-intro-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 灵枢织造箱生产组弹窗 -->
+    <div class="popup-overlay" id="popup-lingshu" style="display:none;">
+        <div class="popup">
+            <div class="popup-inner">
+                <span class="popup-close">×</span>
+                <h3>灵枢织造箱生产组一览</h3>
+                <p>优先级决定了同时拥有多个生产原料存在时，工厂的类型。</p>
+                <p>每个生产原料都有自己的生产效率，所有原料的生产效率总和为工厂的生产效率。</p>
+                <p>产出的产品由权重决定，产出概率为：产品权重/总权重和</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>组名</th>
+                            <th>优先级</th>
+                            <th>生产原料（生产效率）</th>
+                            <th>产品（产出权重）</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lingshu-table-body">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- 农作物总表弹窗 -->
+    <div class="popup-overlay" id="popup-crops" style="display:none;">
+        <div class="popup">
+            <div class="popup-inner">
+                <span class="popup-close">×</span>
+                <h3>农作物一览</h3>
+                <table>
+                        <thead>
+                            <tr>
+                                <th>作物名字</th>
+                                <th>春</th>
+                                <th>夏</th>
+                                <th>秋</th>
+                                <th>冬</th>
+                                <th>阵营</th>
+                                <th>催长剂</th>
+                                <th>堆肥</th>
+                                <th>粪肥</th>
+                                <th>水分</th>
+                            </tr>
+                        </thead>
+                    <tbody id="crop-table-body">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 物品图解弹窗 -->
+    <div class="popup-overlay" id="popup-item" style="display:none;">
+        <div class="popup">
+            <div class="popup-inner">
+                <span class="popup-close">×</span>
+                <h3 id="popup-item-title"></h3>
+                <div id="popup-item-content"></div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 物品列表数据 -->
+    <script src="fengyun_items.js"></script>
+
+    <!-- 物品图解弹窗数据 -->
+    <script src="fengyun_popups.js"></script>
+
+    <!-- 灵枢织造箱生产组数据 -->
+    <script src="fengyun_lingshu.js"></script>
+
+    <!-- 农作物一览数据 -->
+    <script src="fengyun_crops.js"></script>
+
+    <!-- 最后加载逻辑脚本 -->
+    <script src="neirong.js"></script>
+
+
+
+</body>
+</html>
