@@ -1716,9 +1716,53 @@ window.FENGYUN_ITEMS = [
     "name": "凶险事件",
     "source": "",
     "tech": "",
-    "details": "爷爷说会有蜜蜂来袭击我！",
+    "details": "凶险事件由模组设置决定，可以选择凶险迷踪、蜂拥而至、或者关闭凶险事件。该词条主要介绍蜂拥而至，凶险迷踪详见[[迷踪壁垒]]，[[迷踪囚笼]]，[[迷踪电棘]]和[[迷踪花]]。",
     "hasPopup": true,
     "popupId": "terror_event"
+  },
+  {
+    "class": "item",
+    "tag": "event",
+    "image": "img/terror_spike_wall.png",
+    "name": "迷踪壁垒",
+    "source": "",
+    "tech": "",
+    "details": "当冒险家触发凶险事件后，这些深藏于地底的荆棘会迅速钻出地面，保护它们的“公主”。",
+    "hasPopup": true,
+    "popupId": "terror_spike_wall"
+  },
+  {
+    "class": "item",
+    "tag": "event",
+    "image": "img/terror_spike_cage.png",
+    "name": "迷踪囚笼",
+    "source": "",
+    "tech": "",
+    "details": "在凶险事件中，当冒险家企图靠近迷踪花时，这些深藏于地底的荆棘会迅速钻出地面，困住冒险家，保护它们的“公主”。",
+    "hasPopup": true,
+    "popupId": "terror_spike_cage"
+  },
+  {
+    "class": "item",
+    "tag": "event",
+    "image": "img/terror_spike_shooter.png",
+    "name": "迷踪电棘",
+    "source": "",
+    "tech": "",
+    "details": "在凶险事件中，这些深藏于地底的荆棘会逐个钻出地面，攻击冒险家，保护它们的“公主”。",
+    "hasPopup": true,
+    "popupId": "terror_spike_shooter"
+  },
+  {
+    "class": "item",
+    "tag": "event",
+    "image": "img/terror_spike_core.png",
+    "name": "迷踪花",
+    "source": "",
+    "tech": "",
+    "details": "在凶险事件中，迷踪花的存在与否决定了这次凶险事件是不是应该告一段落。如果你不想再被这些频繁出现的迷踪植物打扰，就快些将迷踪花摘掉！但如果你想留下这些植物与你作伴，你可以选择不采摘迷踪花，这样即使凶险事件结束，这些迷踪植物也不会消失了。",
+    "hasPopup": true,
+    "popupId": "terror_spike_core"
   },
 
   // ------------- 角色 -------------

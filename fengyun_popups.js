@@ -70,7 +70,7 @@ window.FENGYUN_POPUPS = {
       {
         type: "text",
         html: `
-        可以通过<strong>自然亲和子塔</strong>对<strong>自然亲和塔</strong>进行遥控来对半径20格内的作物进行照料、收获、敲碎、收纳。
+        可以通过<strong>自然亲和子塔</strong>对<strong>自然亲和塔</strong>进行遥控来对半径20格内的作物进行浇水照料、施肥、收获、敲碎、收纳。
         `
       },
       {
@@ -100,9 +100,10 @@ window.FENGYUN_POPUPS = {
         type: "text",
         html: `
         <strong>自然亲和子塔</strong>可以通过蕴藏在其中的力量，驱动自然亲和塔完成以下工作： </br>
-        捶打：将半径20范围内的所有巨大化作物敲碎；
-        照料：为半径20范围内的所有具有浇水、施肥、对话需求的植物提供服务；
+        浇水照料：为半径20范围内的所有具有浇水、对话需求的植物提供服务；
+        施肥：为半径20范围内的所有具有施肥需求（所有肥料）的植物提供服务；
         收获：收获半径20范围内的所有植物；
+        敲碎：将半径20范围内的所有巨大化作物敲碎；
         收纳：将半径20范围内的所有可以放入自然亲和塔的物品收纳其中。
         `
       },
@@ -256,9 +257,14 @@ window.FENGYUN_POPUPS = {
               <td>在目标周围天降2枚椰子，每枚椰子对敌人造成10点伤害</td>
             </tr>
             <tr>
+              <td>坚果精华</td>
+              <td>坚果法球</td>
+              <td>降低目标的防御值，此时攻击目标对其造成的伤害可能会高于攻击者自身的攻击力</td>
+            </tr>
+            <tr>
               <td>茶丛精华</td>
               <td>茶丛法球</td>
-              <td>降低目标的防御值，此时攻击目标对其造成的伤害可能会高于攻击者自身的攻击力</td>
+              <td>为目标增加3点定身值，定身值满后目标会被定身6s无法行动。</td>
             </tr>
             <tr>
               <td>小麦精华</td>
@@ -522,6 +528,12 @@ window.FENGYUN_POPUPS = {
             </tr>
           </tbody>
         </table>
+        `
+      },
+      {
+        type: "text",
+        html: `
+        可以中途调整背包大小，当背包格数从30格调整至16格时，背包内物品有概率消失，需要保证背包内没有贵重物品。
         `
       }
     ]
@@ -1025,7 +1037,7 @@ window.FENGYUN_POPUPS = {
       {
         type: "text",
         html: `
-        <strong>凶险裹挟者</strong>不仅可以在土壤中播种农作物种子，也可以在其他地面上播种农作物，甚至还可以播种一些可移栽作物。
+        <strong>凶险裹挟者</strong>不仅可以在土壤中播种农作物种子，也可以在其他地面上播种农作物，甚至还可以播种一些可移栽作物，包括草、树枝、树种等（棱镜的子圭奇型岩目前种不了）。
         `
       },
       {
@@ -2639,7 +2651,8 @@ window.FENGYUN_POPUPS = {
       {
         type: "text",
         html: `
-        <strong>樱花灯柱套件</strong>内自带一个粉晶石，并且<strong>樱花灯柱套件</strong>放下后的樱花灯柱可以使用用于照明的材料，比如：蘑菇孢子、荧光果、启迪碎片等。
+        <strong>樱花灯柱套件</strong>内自带一个粉晶石，并且<strong>樱花灯柱套件</strong>放下后的樱花灯柱可以使用用于照明的材料，比如：蘑菇孢子、荧光果、启迪碎片等。</br>
+        在8个单位以内有其它<strong>樱花灯柱套件</strong>时，会尝试生成灯串，灯串只有在任意一边的<strong>樱花灯柱套件</strong>亮时（塞入粉晶石时）亮起。
         `
       }
     ]
@@ -4298,7 +4311,7 @@ window.FENGYUN_POPUPS = {
   // ------------- 奇遇 -------------
 
   terror_event: {
-    title: "凶险事件",
+    title: "凶险事件（蜂拥而至）",
     blocks: [
       {
         type: "image",
@@ -4314,7 +4327,7 @@ window.FENGYUN_POPUPS = {
       {
         type: "text",
         html: `
-        <strong>凶险事件</strong>会根据每个玩家存活天数生成对应数量的生物：</br>
+        <strong>蜂拥而至</strong>会根据每个玩家存活天数生成对应数量的生物：</br>
         当玩家存活天数小于等于10天时，不生成生物；</br>
         当玩家存活天数大于10天且小于等于70天时，则根据玩家存活天数生成对应数量的生物；</br>
         当玩家存活天数大于70天最大生成70个生物。</br>
@@ -4354,17 +4367,83 @@ window.FENGYUN_POPUPS = {
       {
         type: "text",
         html: `
-        <strong>凶险事件</strong>开始时屏幕会有<strong>凶险事件</strong>的滤镜，每个玩家都有自己生成生物的数量和种类。
+        <strong>蜂拥而至</strong>开始时屏幕会有<strong>凶险事件</strong>的滤镜，每个玩家都有自己生成生物的数量和种类。
         `
       },
       {
         type: "text",
         html: `
-        当所有玩家的生物都生成后或者在自然平衡维持器里插入3个宝石时，<strong>凶险事件</strong>结束，<strong>凶险事件</strong>结束后有120秒冷却时间不会再发生<strong>凶险事件</strong>。
+        当所有玩家的生物都生成后（最长时间不超过120秒）或者在自然平衡维持器里插入3个宝石时，<strong>凶险事件</strong>结束，<strong>凶险事件</strong>结束后有240秒冷却时间不会再发生<strong>凶险事件</strong>。
         `
       }
     ]
   },
+  terror_spike_wall: {
+    title: "迷踪壁垒",
+    blocks: [
+      {
+        type: "image",
+        src: "img/terror_spike_wall.png",
+        alt: ""
+      },
+      {
+        type: "text",
+        html: `
+        <strong>迷踪壁垒</strong>拥有400的血量，血量为0消失，无法被彻底杀死，会在被杀死后钻入地下，过段时间重新出现。
+        `
+      }
+    ]
+  },
+  terror_spike_cage: {
+    title: "迷踪囚笼",
+    blocks: [
+      {
+        type: "image",
+        src: "img/terror_spike_cage.png",
+        alt: ""
+      },
+      {
+        type: "text",
+        html: `
+        <strong>迷踪囚笼</strong>拥有200的血量，血量为0消失，无法被彻底杀死，会在被杀死后钻入地下，过段时间重新出现。
+        `
+      }
+    ]
+  },
+  terror_spike_shooter: {
+    title: "迷踪电棘",
+    blocks: [
+      {
+        type: "image",
+        src: "img/terror_spike_shooter.png",
+        alt: ""
+      },
+      {
+        type: "text",
+        html: `
+        <strong>迷踪电棘</strong>拥有10的血量，单次可以造成10点电击伤害，可以通过眼球伞，雨衣等道具防止电击僵直，但是无法免疫伤害，</br>
+        无法被彻底杀死，会在被杀死后钻入地下，过段时间重新出现。
+        `
+      }
+    ]
+  },
+  terror_spike_core: {
+    title: "迷踪花",
+    blocks: [
+      {
+        type: "image",
+        src: "img/terror_spike_core.png",
+        alt: "迷踪花"
+      },
+      {
+        type: "text",
+        html: `
+         <strong>迷踪花</strong>位于迷宫中心，可采摘，采摘后凶险事件结束，并且在采摘时会有反伤。
+        `
+      }
+    ]
+  },
+
 
   // ------------- 角色 -------------
 
