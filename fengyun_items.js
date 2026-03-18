@@ -430,6 +430,17 @@ window.FENGYUN_ITEMS = [
     "hasPopup": true,
     "popupId": "terror_lemon_bomb"
   },
+  {
+    "class": "item",
+    "tag": "equip",
+    "image": "img/terror_sower.png",
+    "name": "凶险裹挟者",
+    "source": "[[自然凶险]]x6,[[恐怖粘液]]x4",
+    "tech": "凶险科技",
+    "details": "【凶险裹挟者】，你的播种好帮手。",
+    "hasPopup": true,
+    "popupId": "terror_sower"
+  },
 
   // ------------- 丰耘科技 -------------
 
